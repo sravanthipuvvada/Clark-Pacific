@@ -1,0 +1,13 @@
+D:\PROJECTS\FileHandlers\NativeMessaging\NativeMessaging-master\NativeMessagingApp\bin\Debug\NativeMessagingApp.exe.config
+D:\PROJECTS\FileHandlers\NativeMessaging\NativeMessaging-master\NativeMessagingApp\bin\Debug\NativeMessagingApp.exe
+D:\PROJECTS\FileHandlers\NativeMessaging\NativeMessaging-master\NativeMessagingApp\bin\Debug\NativeMessagingApp.pdb
+D:\PROJECTS\FileHandlers\NativeMessaging\NativeMessaging-master\NativeMessagingApp\obj\Debug\NativeMessagingApp.csprojAssemblyReference.cache
+D:\PROJECTS\FileHandlers\NativeMessaging\NativeMessaging-master\NativeMessagingApp\obj\Debug\NativeMessagingApp.csproj.CoreCompileInputs.cache
+D:\PROJECTS\FileHandlers\NativeMessaging\NativeMessaging-master\NativeMessagingApp\obj\Debug\NativeMessagingApp.exe
+D:\PROJECTS\FileHandlers\NativeMessaging\NativeMessaging-master\NativeMessagingApp\obj\Debug\NativeMessagingApp.pdb
+D:\PROJECTS\FileHandlers\NativeMessaging\NativeMessaging-master\NativeMessagingApp\bin\Debug\NativeMessaging.dll
+D:\PROJECTS\FileHandlers\NativeMessaging\NativeMessaging-master\NativeMessagingApp\bin\Debug\Newtonsoft.Json.dll
+D:\PROJECTS\FileHandlers\NativeMessaging\NativeMessaging-master\NativeMessagingApp\bin\Debug\NativeMessaging.pdb
+D:\PROJECTS\FileHandlers\NativeMessaging\NativeMessaging-master\NativeMessagingApp\bin\Debug\Newtonsoft.Json.pdb
+D:\PROJECTS\FileHandlers\NativeMessaging\NativeMessaging-master\NativeMessagingApp\bin\Debug\Newtonsoft.Json.xml
+D:\PROJECTS\FileHandlers\NativeMessaging\NativeMessaging-master\NativeMessagingApp\obj\Debug\NativeMessagingApp.csproj.CopyComplete

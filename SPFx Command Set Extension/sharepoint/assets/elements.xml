@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Elements xmlns="http://schemas.microsoft.com/sharepoint/">
+    <!-- <CustomAction
+        Title="FileHandlerExtension"
+        RegistrationId="100"
+        RegistrationType="List"
+        Location="ClientSideExtension.ListViewCommandSet.CommandBar"
+        ClientSideComponentId="1517b840-fd41-4103-8e91-35cf977cbc1d"
+        ClientSideComponentProperties="{&quot;sampleTextOne&quot;:&quot;One item is selected in the list.&quot;, &quot;sampleTextTwo&quot;:&quot;This command is always visible.&quot;}">
+    </CustomAction> -->
+    <CustomAction
+        Title="FileHandlerExtension"
+        RegistrationId="101"
+        RegistrationType="DocumentLibrary"
+        Location="ClientSideExtension.ListViewCommandSet.CommandBar"
+        ClientSideComponentId="1517b840-fd41-4103-8e91-35cf977cbc1d"
+        ClientSideComponentProperties="{&quot;sampleTextOne&quot;:&quot;One item is selected in the list.&quot;, &quot;sampleTextTwo&quot;:&quot;This command is always visible.&quot;}">
+    </CustomAction>
+</Elements>

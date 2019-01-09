@@ -1,0 +1,26 @@
+{
+  // Extension ID: knldjmfmopnpolahpmmgbagdohdnhkik
+  "key": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDcBHwzDvyBQ6bDppkIs9MP4ksKqCMyXQ/A52JivHZKh4YO/9vJsT3oaYhSpDCE9RPocOEQvwsHsFReW2nUEc6OLLyoCFFxIb7KkLGsmfakkut/fFdNJYh0xOTbSN8YvLWcqph09XAY2Y/f0AL7vfO1cuCqtkMt8hFrBGWxDdf9CQIDAQAB",
+  "name": "Native Messaging Example",
+  "version": "1.0",
+  "background" :{
+	"scripts" : ["background.js"]
+ },
+  "manifest_version": 2,
+  "description": "Send a message to a native application.",
+	"content_scripts": [ {
+  "matches": ["<all_urls>"],
+  "js": ["jquery-3.3.1.min.js","contentscript.js"]
+} ],
+  "app": {
+    "launch": {
+      "local_path": "main.html"
+    }
+  },
+  "icons": {
+    "128": "icon-128.png"
+  },
+  "permissions": [
+    "nativeMessaging","activeTab"
+  ]
+}

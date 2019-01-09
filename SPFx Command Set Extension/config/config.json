@@ -1,0 +1,18 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/config.2.0.schema.json",
+  "version": "2.0",
+  "bundles": {
+    "file-handler-extension-command-set": {
+      "components": [
+        {
+          "entrypoint": "./lib/extensions/fileHandlerExtension/FileHandlerExtensionCommandSet.js",
+          "manifest": "./src/extensions/fileHandlerExtension/FileHandlerExtensionCommandSet.manifest.json"
+        }
+      ]
+    }
+  },
+  "externals": {},
+  "localizedResources": {
+    "FileHandlerExtensionCommandSetStrings": "lib/extensions/fileHandlerExtension/loc/{locale}.js"
+  }
+}

@@ -1,0 +1,7 @@
+{
+"name":"com.google.chrome.example.echo",
+"description":"Native host to open autocad application",
+"path":"NativeMessagingApp.exe",
+"type":"stdio",
+"allowed_origins":["chrome-extension://knldjmfmopnpolahpmmgbagdohdnhkik/"]
+}
