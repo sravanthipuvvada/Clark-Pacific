@@ -1,0 +1,32 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/config.2.0.schema.json",
+  "version": "2.0",
+  "bundles": {
+    "social-media-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/socialMedia/SocialMediaWebPart.js",
+          "manifest": "./src/webparts/socialMedia/SocialMediaWebPart.manifest.json"
+        }
+      ]
+    }
+  },
+  "externals": {
+    "jquery": {
+      "path": "node_modules/jquery/dist/jquery.min.js",
+      "globalName": "jQuery"
+    },
+    "twitter": {
+      "path": "src/javascripts/twitter/widgets.js",
+      "globalName": "twttr"
+    },
+    "socialstream": {
+      "path": "src/javascripts/socialStream/socialstream.jquery.js",
+      "globalName": "jQuery",
+      "globalDependencies": [ "jquery" ]
+    }
+  },
+  "localizedResources": {
+    "SocialMediaWebPartStrings": "lib/webparts/socialMedia/loc/{locale}.js"
+  }
+}

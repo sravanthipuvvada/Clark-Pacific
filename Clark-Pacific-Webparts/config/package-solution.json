@@ -1,0 +1,12 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "clark-specific-client-side-solution",
+    "id": "4deff262-9232-4717-8eb5-b7df8d82ee16",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true
+  },
+  "paths": {
+    "zippedPackage": "solution/clark-specific.sppkg"
+  }
+}

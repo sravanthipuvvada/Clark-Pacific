@@ -1,0 +1,11 @@
+{
+  "@microsoft/generator-sharepoint": {
+    "isCreatingSolution": true,
+    "environment": "spo",
+    "version": "1.7.1",
+    "libraryName": "clark-specific",
+    "libraryId": "4deff262-9232-4717-8eb5-b7df8d82ee16",
+    "packageManager": "npm",
+    "componentType": "webpart"
+  }
+}
