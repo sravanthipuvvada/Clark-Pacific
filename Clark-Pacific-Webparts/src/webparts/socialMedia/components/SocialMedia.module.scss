@@ -2,17 +2,6 @@
 
 :global {
   .socialMediaWebpart {
-    //   button#Pivot33-Tab0 {
-    //     background: #3F51B5;
-    // } 
-
-    // button#Pivot33-Tab1 {
-    //     background: #03A9F4;
-    // }
-
-    // button#Pivot33-Tab2 {
-    //     background: #F50057;
-    // }
     .ms-twitter-MessageBar {
       margin: 10px 0px 0px 0px;
     }
@@ -40,20 +29,49 @@
       margin: 10px 0px 0px 0px;
     }
 
-    // #facebook ._li ._2p3a {
-    //     width: 100%!important;
+    // button#Pivot33-Tab0 {
+    //   background-color: #1B498F;
+    //   margin-right: 0px;
+    //   background: url('./Images/icons8-facebook-480.png') no-repeat #3f51b5;
+    //   background-position: center;
+    //   background-size: 70px 70px;
+    //   padding: 5px 0px 5px 0px;
     // }
 
-    button#Pivot33-Tab0 {
+    // button#Pivot33-Tab1 {
+    //   background-color: #2FA7D6;
+    //   margin-right: 0px;
+    //   width: 33%;
+    //   height: 50px;
+    //   background: url('./Images/icons8-twitter-squared-96.png') no-repeat #03a9f4;
+    //   background-position: center;
+    //   background-size: 70px 70px;
+    //   padding: 5px 0px 5px 0px;
+    // }
+
+    // button#Pivot33-Tab2 {
+    //   background-color: #CA2F47;
+    //   margin-right: 0px;
+    //   width: 33%;
+    //   height: 50px;
+    //   background: url('./Images/icons8-instagram.png') no-repeat #c2185b;
+    //   background-position: center;
+    //   background-size: 50px 50px;
+    //   padding: 5px 0px 5px 0px;
+    // }
+
+    .ms-Pivot>Button:nth-child(1) {
       background-color: #1B498F;
       margin-right: 0px;
+      width: 33%;
+      height: 50px;
       background: url('./Images/icons8-facebook-480.png') no-repeat #3f51b5;
       background-position: center;
       background-size: 70px 70px;
       padding: 5px 0px 5px 0px;
     }
 
-    button#Pivot33-Tab1 {
+    .ms-Pivot>Button:nth-child(2) {
       background-color: #2FA7D6;
       margin-right: 0px;
       width: 33%;
@@ -64,7 +82,7 @@
       padding: 5px 0px 5px 0px;
     }
 
-    button#Pivot33-Tab2 {
+    .ms-Pivot>Button:nth-child(3) {
       background-color: #CA2F47;
       margin-right: 0px;
       width: 33%;
@@ -73,37 +91,6 @@
       background-position: center;
       background-size: 50px 50px;
       padding: 5px 0px 5px 0px;
-    }
-
-    button#Pivot33-Tab0 {
-      margin-right: 0px;
-      width: 33%;
-      height: 50px;
-    }
-
-    .facebookIcon,
-    .twitterIcon,
-    .instagramIcon {
-      //position: absolute;
-      top: 48px;
-    }
-
-    svg.svg-inline--fa.fa-facebook-square.fa-w-14.fa-3x.facebookIcon {
-      position: relative;
-      width: 33%;
-      z-index: 1;
-    }
-
-    svg.svg-inline--fa.fa-twitter-square.fa-w-14.fa-3x.twitterIcon {
-      position: relative;
-      z-index: 1;
-      width: 33%;
-    }
-
-    svg.svg-inline--fa.fa-instagram.fa-w-14.fa-3x.instagramIcon {
-      position: relative;
-      z-index: 1;
-      width: 33%;
     }
 
     .facebookPageContainer {

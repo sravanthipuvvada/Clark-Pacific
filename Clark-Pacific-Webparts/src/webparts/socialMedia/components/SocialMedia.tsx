@@ -10,20 +10,22 @@ import Facebook from './Facebook';
 
 export default class SocialMedia extends React.Component<ISocialMediaProps, {}> {
   public render(): React.ReactElement<ISocialMediaProps> {
-    return ( 
+    return (   
       <div className="socialMediaWebpart"> 
-        <div className="socialMediaIcons">          
-        </div>  
-        <Pivot>       
-          <PivotItem >
+        <Pivot>        
+          
+          <PivotItem className="facebookItem" id="facebookItem">  
             <Facebook {...this.props} />
           </PivotItem>
-          <PivotItem >
+      
+          <PivotItem className="twitterItem" id="twitterItem">
             <Twitter {...this.props} />
-          </PivotItem> 
-          <PivotItem >
+          </PivotItem>   
+   
+          <PivotItem className="instagramItem" id="instagramItem">
             <Instagram {...this.props} />
           </PivotItem>
+ 
         </Pivot>
       </div>
     );
