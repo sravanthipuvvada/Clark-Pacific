@@ -1,6 +1,11 @@
 define([], function() {
   return {
     "PropertyPaneDescription": "Customize your social feed",
+    "WebpartSettings":"Webpart Settings",
+    "EnableTwitter":"Enable Twitter",
+    "EnableInstagram":"Enable Instagram",
+    "EnableFacebook":"Enable Facebook",
+    "EnableLinkedIn":"Enable LinkedIn",
     "TwitterGroupSettings": "Twitter Setting",
     "TwitterAccount": "Twitter Account (alias)",
     "ErrorSelectTwitterAccount":"Please edit this Web Part and configure a Twitter account",
@@ -20,5 +25,10 @@ define([], function() {
     "FacebookSmallHeaderFieldLabel":"Small header",
     "FacebookHideCoverFieldLabel":"Hide cover",
     "FacebookShowFacepileFieldLabel":"Show facepile",
+    "FacebookBackgroundColorLabel":"Facebook Background Color",
+    "InstagramBackgroundColorLabel":"Instagram Background Color",
+    "TwitterBackgroundColorLabel":"Twitter Background Color",
+    "LinkedInGroupSettings":"LinkedIn Settings",
+    "LinkedInBackgroundColorLabel":"LinkedIn Background Color"
   }
 });

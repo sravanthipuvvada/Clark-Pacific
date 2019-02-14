@@ -4,10 +4,12 @@ import { MessageBar, MessageBarType } from 'office-ui-fabric-react/lib/MessageBa
 let twttr: any = require("twitter");
 export default class Twitter extends React.Component<any, any> {
   constructor(props) {
-    super(props);
+    super(props); 
   }
 
 public componentDidMount(){
+  //Jquery twitter widget is used to display twitter public account feed in SPFx.
+  //When component mounter , twitter widget load is called .
   twttr.widgets.load();
 }
 
@@ -24,7 +26,7 @@ public componentDidMount(){
         </div>
       </div>
       );
-    }
+    } 
 
     var dataChrome = '';
     if (this.props.twitterFooter === false)
@@ -40,8 +42,6 @@ public componentDidMount(){
       <a className="twitter-timeline" data-tweet-limit={this.props.twitterLimit}
       data-chrome={dataChrome}
       href={twtterURL}>
-      Tweets by
-      {this.props.twitterAccount}
       </a>
     );
   }

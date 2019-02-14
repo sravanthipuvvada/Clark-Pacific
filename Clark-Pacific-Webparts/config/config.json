@@ -19,11 +19,6 @@
     "twitter": {
       "path": "src/javascripts/twitter/widgets.js",
       "globalName": "twttr"
-    },
-    "socialstream": {
-      "path": "src/javascripts/socialStream/socialstream.jquery.js",
-      "globalName": "jQuery",
-      "globalDependencies": [ "jquery" ]
     }
   },
   "localizedResources": {

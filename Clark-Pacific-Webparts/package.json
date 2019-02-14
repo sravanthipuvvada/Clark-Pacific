@@ -28,7 +28,8 @@
     "on-el-resize": "0.0.4",
     "react": "16.3.2",
     "react-dom": "16.3.2",
-    "react-facebook": "^6.0.15"
+    "react-linkedin-login-oauth2": "^1.0.6",
+    "react-linkedin-sdk": "^1.0.12"
   },
   "resolutions": {
     "@types/react": "16.4.2"

@@ -1,40 +1,36 @@
 import * as React from 'react';
-import { FacebookProvider, Page } from 'react-facebook';
 import { Resizable } from 'on-el-resize/lib/components';
 import { MessageBar, MessageBarType } from 'office-ui-fabric-react/lib/MessageBar';
 
-export default class Facebook extends React.Component<any,any>{
-  constructor(props){
+export default class Facebook extends React.Component<any, any>{
+  constructor(props) {
     super(props);
   }
 
-  public componentDidMount(){
-   
-  }
-
   private buildIFrameUrl(width: number): string {
+    debugger;
     return `https://www.facebook.com/plugins/page.php?` +
       `href=${encodeURIComponent(`https://www.facebook.com/${this.props.facebookUserName || 'Microsoft'}`)}&` +
       `width=${width}&` +
       `height=${this.props.facebookPageHeight || 500}&` +
-      `small_header=${typeof this.props.facebookPageSmallHeader !== 'undefined' ? this.props.facebookPageSmallHeader : false}&` +
-      `hide_cover=${typeof this.props.facebookPageHideCover !== 'undefined' ? this.props.facebookPageHideCover : false}&` +
+      `small_header=${typeof this.props.facebookPageSmallHeader !== 'undefined' ? this.props.facebookPageSmallHeader : true}&` +
+      `hide_cover=${typeof this.props.facebookPageHideCover !== 'undefined' ? this.props.facebookPageHideCover : true}&` +
       `show_facepile=${typeof this.props.facebookPageShowFacepile !== 'undefined' ? this.props.facebookPageShowFacepile : false}&` +
       `adapt_container_width=true&` +
       `tabs=timeline`;
-  } 
-     
+  }
+
   public render() {
-    console.log(this.props); 
-          return (
-            <div className="facebookPageContainerMain">
-            {
-              this.props.facebookUserName!==undefined && this.props.facebookUserName!==null && this.props.facebookUserName!==""
-              ?
-              <Resizable
+    console.log(this.props);
+    return (
+      <div className="facebookPageContainerMain">
+        {
+          this.props.facebookUserName !== undefined && this.props.facebookUserName !== null && this.props.facebookUserName !== ""
+            ?
+            <Resizable
               className="facebookPageContainer"
               render={({ width }) => {
-                return ( 
+                return (
                   <iframe
                     src={this.buildIFrameUrl(width)}
                     width={width}
@@ -56,8 +52,8 @@ export default class Facebook extends React.Component<any,any>{
                 <MessageBar>No data found.</MessageBar>
               </div>
             </div>
-            }
-            </div>
-          );
+        }
+      </div>
+    );
   }
 }

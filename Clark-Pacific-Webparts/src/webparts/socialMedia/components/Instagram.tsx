@@ -1,6 +1,4 @@
 import * as React from 'react';
-import { Fragment } from 'react';
-import { Image } from 'office-ui-fabric-react/lib/Image';
 import { IRectangle } from 'office-ui-fabric-react/lib/Utilities';
 import ISocialMediaState from './ISocialMediaState';
 import { InstagramItem } from './InstagramItem';
@@ -20,8 +18,6 @@ export default class Instagram extends React.Component<any, ISocialMediaState>{
       instagramItems: []
     };
   }
-
-
 
   public componentDidMount() {
     //We are passing instagram username and access key from parent component social media to instagram component through 
@@ -47,6 +43,7 @@ export default class Instagram extends React.Component<any, ISocialMediaState>{
           console.log(responseJSON);
           let instagramItems: InstagramItem[] = new Array();
           responseJSON.data.map((element) => {
+            debugger;
             let instagramItem: InstagramItem = {
               id: element.id,
               imageSourceURL: element.images.thumbnail.url

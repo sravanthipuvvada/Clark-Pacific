@@ -14,22 +14,32 @@ import SocialMedia from './components/SocialMedia';
 import { ISocialMediaProps } from './components/ISocialMediaProps';
 
 export interface ISocialMediaWebPartProps {
+
+  enableTwitter: boolean;
+  enableInstagram: boolean;
+  enableFacebook: boolean;
+  enableLinkedIn: boolean;
+
   twitterAccount: string;
   twitterLimit: number;
   twitterHeader: boolean;
   twitterFooter: boolean;
   twitterBorders: boolean;
   twitterScrollbars: boolean;
+  twitterBackgroundColor:string;
 
-  instagramUserName:string;
-  insagramAccessKey:string;
-  //instagramFeedLimit:number;
+  instagramUserName: string;
+  insagramAccessKey: string;
+  instagramBackgroundColor:string;
 
-  facebookUserName:string;
+  facebookUserName: string;
   facebookPageHeight: string;
   facebookPageSmallHeader?: boolean;
   facebookPageHideCover?: boolean;
   facebookPageShowFacepile?: boolean;
+  facebookBackgroundColor:string;
+
+  linkedInBackgroundColor:string;
 }
 
 export default class SocialMediaWebPart extends BaseClientSideWebPart<ISocialMediaWebPartProps> {
@@ -38,20 +48,27 @@ export default class SocialMediaWebPart extends BaseClientSideWebPart<ISocialMed
     const element: React.ReactElement<ISocialMediaProps> = React.createElement(
       SocialMedia,
       {
-        twitterAccount:this.properties.twitterAccount,
+        enableTwitter: this.properties.enableTwitter,
+        enableInstagram: this.properties.enableInstagram,
+        enableFacebook: this.properties.enableFacebook,
+        enableLinkedIn: this.properties.enableLinkedIn,
+        twitterAccount: this.properties.twitterAccount,
         twitterLimit: this.properties.twitterLimit,
         twitterHeader: this.properties.twitterHeader,
         twitterFooter: this.properties.twitterFooter,
         twitterBorders: this.properties.twitterBorders,
         twitterScrollbars: this.properties.twitterScrollbars,
-        instagramUserName:this.properties.instagramUserName,
-        insagramAccessKey:this.properties.insagramAccessKey,
-        //instagramFeedLimit:this.properties.instagramFeedLimit
-        facebookUserName:this.properties.facebookUserName,
+        twitterBackgroundColor:this.properties.twitterBackgroundColor,
+        instagramUserName: this.properties.instagramUserName,
+        insagramAccessKey: this.properties.insagramAccessKey,
+        instagramBackgroundColor:this.properties.instagramBackgroundColor,
+        facebookUserName: this.properties.facebookUserName,
         facebookPageHeight: Number(this.properties.facebookPageHeight),
         facebookPageSmallHeader: this.properties.facebookPageSmallHeader,
         facebookPageHideCover: this.properties.facebookPageHideCover,
-        facebookPageShowFacepile: this.properties.facebookPageShowFacepile
+        facebookPageShowFacepile: this.properties.facebookPageShowFacepile,
+        facebookBackgroundColor:this.properties.facebookBackgroundColor,
+        linkedInBackgroundColor:this.properties.linkedInBackgroundColor
       }
     );
     ReactDom.render(element, this.domElement);
@@ -75,6 +92,50 @@ export default class SocialMediaWebPart extends BaseClientSideWebPart<ISocialMed
           displayGroupsAsAccordion: true,
           groups: [
             {
+              groupName: strings.WebpartSettings,
+              groupFields: [
+                PropertyPaneToggle('enableFacebook', {
+                  label: strings.EnableFacebook,
+                  checked: true
+                }),
+                PropertyPaneToggle('enableTwitter', {
+                  label: strings.EnableTwitter,
+                  checked: true
+                }),
+                PropertyPaneToggle('enableInstagram', {
+                  label: strings.EnableInstagram,
+                  checked: true
+                }),
+                PropertyPaneToggle('enableLinkedIn', {
+                  label: strings.EnableLinkedIn,
+                  checked: true
+                })
+              ]
+            },
+            {
+              groupName: strings.FaceBookGroupSettings,
+              groupFields: [
+                PropertyPaneTextField('facebookUserName', {
+                  label: strings.FacebookUserName 
+                }),
+                PropertyPaneTextField('height', {
+                  label: strings.FacebookHeightFieldLabel
+                }),
+                PropertyPaneToggle('smallHeader', {
+                  label: strings.FacebookSmallHeaderFieldLabel
+                }),
+                PropertyPaneToggle('hideCover', {
+                  label: strings.FacebookHideCoverFieldLabel
+                }),
+                PropertyPaneToggle('showFacepile', {
+                  label: strings.FacebookShowFacepileFieldLabel
+                }),
+                PropertyPaneTextField('facebookBackgroundColor', {
+                  label: strings.FacebookBackgroundColorLabel
+                })
+              ]
+            },
+            {
               groupName: strings.TwitterGroupSettings,
               groupFields: [
                 PropertyPaneTextField('twitterAccount', {
@@ -97,6 +158,9 @@ export default class SocialMediaWebPart extends BaseClientSideWebPart<ISocialMed
                 }),
                 PropertyPaneToggle('twitterScrollbars', {
                   label: strings.TwitterScrollbars
+                }),
+                PropertyPaneTextField('twitterBackgroundColor', {
+                  label: strings.TwitterBackgroundColorLabel
                 })
               ]
             },
@@ -108,33 +172,17 @@ export default class SocialMediaWebPart extends BaseClientSideWebPart<ISocialMed
                 }),
                 PropertyPaneTextField('insagramAccessKey', {
                   label: strings.InsagramAccessKey
-                })//,
-                // PropertyPaneSlider('instagramFeedLimit', {
-                //   label: strings.InstagramFeedLimit,
-                //   min: 1,
-                //   max: 33,
-                //   step: 1,
-                //   value:33
-                // })
+                }),
+                PropertyPaneTextField('instagramBackgroundColor', {
+                  label: strings.InstagramBackgroundColorLabel
+                })
               ]
             },
             {
-              groupName: strings.FaceBookGroupSettings,
+              groupName: strings.LinkedInGroupSettings,
               groupFields: [
-                PropertyPaneTextField('facebookUserName', {
-                  label: strings.FacebookUserName
-                }),
-                PropertyPaneTextField('height', {
-                  label: strings.FacebookHeightFieldLabel
-                }),
-                PropertyPaneToggle('smallHeader', {
-                  label: strings.FacebookSmallHeaderFieldLabel
-                }),
-                PropertyPaneToggle('hideCover', {
-                  label: strings.FacebookHideCoverFieldLabel
-                }),
-                PropertyPaneToggle('showFacepile', {
-                  label: strings.FacebookShowFacepileFieldLabel
+                PropertyPaneTextField('linkedInBackgroundColor', {
+                  label: strings.LinkedInBackgroundColorLabel
                 })
               ]
             }
