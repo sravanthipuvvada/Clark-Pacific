@@ -6,6 +6,8 @@ import { FocusZone } from 'office-ui-fabric-react/lib/FocusZone';
 import { List } from 'office-ui-fabric-react/lib/List';
 import { Link } from 'office-ui-fabric-react/lib/Link';
 import { MessageBar, MessageBarType } from 'office-ui-fabric-react/lib/MessageBar';
+import * as $ from "jquery";
+
 const ROWS_PER_PAGE = 3;
 const MAX_ROW_HEIGHT = 250;
 export default class Instagram extends React.Component<any, ISocialMediaState>{
@@ -29,21 +31,19 @@ export default class Instagram extends React.Component<any, ISocialMediaState>{
     }
   }
 
-  /**
+ /**
    *  This method is used to get instagram feeds using Instagram API.
    */
-  public _getInstagramFeeds() {
-    return new Promise((resolve, reject) => {
-      fetch(`https://api.instagram.com/v1/users/self/media/recent/?access_token=${this.props.insagramAccessKey}`, {
-        method: 'GET'
-      }).then((response) => {
-        return response.json();
-      })
-        .then((responseJSON) => {
-          console.log(responseJSON);
-          let instagramItems: InstagramItem[] = new Array();
-          responseJSON.data.map((element) => {
-            debugger;
+ public _getInstagramFeeds() {
+  $.ajax({
+    url: `https://api.instagram.com/v1/users/self/media/recent/?access_token=${this.props.insagramAccessKey}&callback=?`,
+    error:(error)=>{
+      console.log(error);
+    },
+    success:(response)=>{
+     console.log(response);
+     let instagramItems: InstagramItem[] = new Array();
+     response.data.map((element) => {
             let instagramItem: InstagramItem = {
               id: element.id,
               imageSourceURL: element.images.thumbnail.url
@@ -53,12 +53,11 @@ export default class Instagram extends React.Component<any, ISocialMediaState>{
           this.setState({
             instagramItems
           });
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    });
-  }
+    },
+    type: 'GET',
+    dataType: "jsonp" 
+ });
+ }
 
   private _getItemCountForPage = (itemIndex: number, surfaceRect: IRectangle): number => {
     if (itemIndex === 0) {

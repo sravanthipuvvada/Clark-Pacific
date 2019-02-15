@@ -8,7 +8,6 @@ export default class Facebook extends React.Component<any, any>{
   }
 
   private buildIFrameUrl(width: number): string {
-    debugger;
     return `https://www.facebook.com/plugins/page.php?` +
       `href=${encodeURIComponent(`https://www.facebook.com/${this.props.facebookUserName || 'Microsoft'}`)}&` +
       `width=${width}&` +

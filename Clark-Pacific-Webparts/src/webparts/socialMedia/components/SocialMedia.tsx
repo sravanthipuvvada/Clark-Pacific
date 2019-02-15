@@ -125,7 +125,7 @@ export default class SocialMedia extends React.Component<ISocialMediaProps, {}> 
             <div></div>
           }
           {
-            this.props.enableInstagram != false
+            this.props.enableTwitter != false
               ?
               <PivotItem className="twitterItem" id="twitterItem" onRenderItemLink={this._customRendererTwitter}>
                 <Twitter {...this.props} />
@@ -134,7 +134,7 @@ export default class SocialMedia extends React.Component<ISocialMediaProps, {}> 
               <div></div>
           }
           {
-            this.props.enableTwitter != false
+            this.props.enableInstagram != false
               ?
               <PivotItem className="instagramItem" id="instagramItem" onRenderItemLink={this._customRendererInstagram}>
                 <Instagram {...this.props} />
