@@ -9,6 +9,22 @@
           "manifest": "./src/webparts/socialMedia/SocialMediaWebPart.manifest.json"
         }
       ]
+    },
+    "tech-advocates-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/techAdvocates/TechAdvocatesWebPart.js",
+          "manifest": "./src/webparts/techAdvocates/TechAdvocatesWebPart.manifest.json"
+        }
+      ]
+    },
+    "employee-spotlight-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/employeeSpotlight/EmployeeSpotlightWebPart.js",
+          "manifest": "./src/webparts/employeeSpotlight/EmployeeSpotlightWebPart.manifest.json"
+        }
+      ]
     }
   },
   "externals": {
@@ -23,10 +39,15 @@
     "socialstream": {
       "path": "src/javascripts/socialStream/socialstream.jquery.js",
       "globalName": "jQuery",
-      "globalDependencies": [ "jquery" ]
+      "globalDependencies": [
+        "jquery"
+      ]
     }
   },
   "localizedResources": {
-    "SocialMediaWebPartStrings": "lib/webparts/socialMedia/loc/{locale}.js"
+    "SocialMediaWebPartStrings": "lib/webparts/socialMedia/loc/{locale}.js",
+    "TechAdvocatesWebPartStrings": "lib/webparts/techAdvocates/loc/{locale}.js",
+    "EmployeeSpotlightWebPartStrings": "lib/webparts/employeeSpotlight/loc/{locale}.js",
+    "PropertyControlStrings": "node_modules/@pnp/spfx-property-controls/lib/loc/{locale}.js"
   }
 }
