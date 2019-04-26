@@ -1,3 +1,8 @@
 export interface ITechAdvocatesProps {
-  description: string;
+  listName: string;
+  siteUrl: string;
+  spHttpClient: any;
+  numerOfEmployee:number;
+  title: string;
+  titleIcon:string;
 }

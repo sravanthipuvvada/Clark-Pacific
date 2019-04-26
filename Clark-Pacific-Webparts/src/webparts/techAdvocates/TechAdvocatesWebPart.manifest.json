@@ -14,11 +14,11 @@
   "requiresCustomScript": false,
 
   "preconfiguredEntries": [{
-    "groupId": "5c03119e-3074-46fd-976b-c60198311f70", // Other
-    "group": { "default": "Other" },
-    "title": { "default": "TechAdvocates" },
+    "groupId": "5c03119e-3074-46fd-976b-c60198311f70", 
+    "group": { "default": "Clark Pacific" },
+    "title": { "default": "Tech Advocates" },
     "description": { "default": "TechAdvocates description" },
-    "officeFabricIconFontName": "Page",
+    "officeFabricIconFontName": "Contact",
     "properties": {
       "description": "TechAdvocates"
     }

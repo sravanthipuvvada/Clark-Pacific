@@ -10,9 +10,14 @@ import {
 import * as strings from 'TechAdvocatesWebPartStrings';
 import TechAdvocates from './components/TechAdvocates';
 import { ITechAdvocatesProps } from './components/ITechAdvocatesProps';
-
+import { PropertyFieldNumber } from '@pnp/spfx-property-controls/lib/PropertyFieldNumber';
 export interface ITechAdvocatesWebPartProps {
-  description: string;
+    listName: string;
+    numerOfEmployee:number;
+    selectSite:string;
+    title: string;
+    titleIcon:string;
+    siteUrl:string;
 }
 
 export default class TechAdvocatesWebPart extends BaseClientSideWebPart<ITechAdvocatesWebPartProps> {
@@ -21,7 +26,12 @@ export default class TechAdvocatesWebPart extends BaseClientSideWebPart<ITechAdv
     const element: React.ReactElement<ITechAdvocatesProps > = React.createElement(
       TechAdvocates,
       {
-        description: this.properties.description
+        listName: this.properties.listName,
+        siteUrl: this.properties.siteUrl,
+        spHttpClient: this.context.spHttpClient,
+        numerOfEmployee:this.properties.numerOfEmployee,
+        title: this.properties.title,
+        titleIcon: this.properties.titleIcon,
       }
     );
 
@@ -47,8 +57,26 @@ export default class TechAdvocatesWebPart extends BaseClientSideWebPart<ITechAdv
             {
               groupName: strings.BasicGroupName,
               groupFields: [
-                PropertyPaneTextField('description', {
-                  label: strings.DescriptionFieldLabel
+                PropertyPaneTextField('title', {
+                  label: strings.TitleFieldLabel
+                }),
+                PropertyPaneTextField('titleIcon', {
+                  label: strings.TitleIconFieldLabel
+                }),
+                PropertyPaneTextField('siteUrl', {
+                  label: strings.SiteURLFieldLabel
+                }),
+                PropertyPaneTextField('listName', {
+                  label: strings.ListNameLabel
+                }),
+                PropertyFieldNumber("numerOfEmployee", {
+                  key: "numerOfEmployee",
+                  label: strings.NumerOfEmployee,
+                  value: this.properties.numerOfEmployee,
+                  minValue: 1,
+                  maxValue: 10,
+                  disabled: false,
+                  description: "Enter a value in between 1-10"
                 })
               ]
             }
