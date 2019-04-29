@@ -1,69 +1,114 @@
 @import '~@microsoft/sp-office-ui-fabric-core/dist/sass/SPFabricCore.scss';
 
 :global{
-  .cs-ta-Image {
-    /* display: inline-block; */
-    text-align: center;
-}
-
-.cs-ta-descriptionSection {
-    /* display: inline-block; */
-    padding: 0px 0px 0px 10px;
-    margin-left: 20px;
-}
-
-img {
-    display: block;
-    border-radius: 50%;
-    height: 140px;
-    width: 140px;
-}
-
-.cs-ta-employeeItem {
-    display: inline-flex;
-    margin: 5px;
-}
-
-span.employeeName {
-    display: block;
-    font-weight: 600;
-}
-
-span.spnHello {
-    display: block;
-}
-
-span.spnBitAbtMe {
+  .taHeader {
     font-size: 20px;
     font-weight: 600;
-    /* padding-top: 10px; */
+    padding-bottom: 10px;
+    color: #999;
 }
-
+  .cs-ta-Image {
+    text-align: center;
+}
+.cs-ta-Image img {
+    border-radius: 50%;
+    height: 180px;
+    width: 180px;
+}
+.cs-ta-RightImage img {
+  border-radius: 50%;
+  height: 110px;
+  width: 110px;
+}
 span.spnBtn {
-    padding: 5px 20px;
-    margin: 5px;
-    border: 1px solid;
-    /* display: block; */
-    min-width: 70px;
-    background: #307579;
-    color: #fff;
-    text-transform: uppercase;
+  padding: 7px 20px;
+  margin: 5px 0px 2px 0px;
+  border: 1px solid;
+  min-width: 95px;
+  background: #307579;
+  color: #fff;
+  display: block;
+}
+.socialBtns .ms-Grid-col {  
+   padding-left: 0px !important; 
 }
 
-.socialBtns {
-    display: inline-flex;
-    margin-top: 10px;
+span.spnBtn a {
+  text-decoration: none;
+  color: #fff;
+}
+.employeeTitle{
+  color:#919191;
+  padding-top:2px;
+}
+.rightPanelSection{
+  background: #f2f2f2;
+  padding: 5px;
+}
+.employeeName {
+  color: #468e97;
+  font-weight: 600;
+  display: block;
+  text-transform: uppercase;
+  padding-top:15px;
+}
+.cs-ta-RightImage {
+  text-align: center;
+}
+.rpEmployeeItem {
+  margin-bottom: 5px;
+  border-bottom: #eae3e3 1.1px solid;
+  padding-bottom: 5px;
+  cursor: pointer;
 }
 
 .taHeader {
-    font-weight: 600;
-    font-size: 18px;
-    text-transform: uppercase;
+  font-size: 20px;
+  font-weight: 600;
+  padding-bottom: 10px;
+  color: #999;
 }
-@media only screen and (max-width: 600px) {
-  .socialBtns {
-    display: block;
-    margin-top: 10px;
+
+span.spnHello {
+  font-size: 14px;
+  text-transform: uppercase;
+  display: block;
+  padding-bottom: 5px;
 }
+
+.spnBitAbtMe {
+  margin-bottom: 20px;
+  margin-top: 10px;
+  font-size: 20px;
+  font-weight: 600;
 }
+
+.spnHelloIcon {color: #efbe52;padding-right: 5px;}
+
+.spnHello {
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.cs-ta-description {
+  text-align: justify;
+  padding-bottom: 20px;
+}
+span.mailTo {
+  display: block;
+}
+
+.mailIcon {
+  margin-top: 10px;
+}
+
+span.mailTo a {
+  text-decoration: none;
+  color: #919191;
+}
+.mailToSection {
+  color: #919191;
+}
+
+
 }

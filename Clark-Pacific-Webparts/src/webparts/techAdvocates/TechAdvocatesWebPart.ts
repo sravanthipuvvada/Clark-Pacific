@@ -11,6 +11,7 @@ import * as strings from 'TechAdvocatesWebPartStrings';
 import TechAdvocates from './components/TechAdvocates';
 import { ITechAdvocatesProps } from './components/ITechAdvocatesProps';
 import { PropertyFieldNumber } from '@pnp/spfx-property-controls/lib/PropertyFieldNumber';
+import { SPComponentLoader } from '@microsoft/sp-loader';
 export interface ITechAdvocatesWebPartProps {
     listName: string;
     numerOfEmployee:number;
@@ -21,7 +22,10 @@ export interface ITechAdvocatesWebPartProps {
 }
 
 export default class TechAdvocatesWebPart extends BaseClientSideWebPart<ITechAdvocatesWebPartProps> {
-
+  public onInit(): Promise<void> {
+    SPComponentLoader.loadCss('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css');
+    return Promise.resolve();    
+}
   public render(): void {
     const element: React.ReactElement<ITechAdvocatesProps > = React.createElement(
       TechAdvocates,

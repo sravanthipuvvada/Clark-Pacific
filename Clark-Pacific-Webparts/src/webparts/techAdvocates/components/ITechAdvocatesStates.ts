@@ -1,6 +1,8 @@
 export interface ITechAdvocatesStates {
   employees:IEmployees[];
+  specificEmployee:IEmployees[];
   employeeHTML: any;
+  employeeHTMLRightPanel: any;
 }
 
 export interface IEmployees{
