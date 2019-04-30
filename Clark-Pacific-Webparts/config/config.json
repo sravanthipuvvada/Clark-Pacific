@@ -25,7 +25,15 @@
           "manifest": "./src/webparts/employeeSpotlight/EmployeeSpotlightWebPart.manifest.json"
         }
       ]
-    }
+    },
+    "script-editor-bundle": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/scriptEditor/ScriptEditorWebPart.js",
+          "manifest": "./src/webparts/scriptEditor/ScriptEditorWebPart.manifest.json"
+        }
+      ]
+    } 
   },
   "externals": {
     "jquery": {
