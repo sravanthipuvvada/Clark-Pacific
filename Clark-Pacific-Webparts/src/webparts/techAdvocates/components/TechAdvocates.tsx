@@ -6,8 +6,8 @@ import { IEmployees } from './ITechAdvocatesStates';
 import { escape, constant } from '@microsoft/sp-lodash-subset';
 import { SPHttpClient } from '@microsoft/sp-http';
 import Constants from "../../../constants/constant";
-import { MessageBar, MessageBarType } from 'office-ui-fabric-react/lib/MessageBar';
- 
+import { MessageBar} from 'office-ui-fabric-react/lib/MessageBar';
+
 export default class TechAdvocates extends React.Component<ITechAdvocatesProps, ITechAdvocatesStates> {
   constructor(props) {
     super(props);
@@ -21,7 +21,7 @@ export default class TechAdvocates extends React.Component<ITechAdvocatesProps, 
   //Get Employee details from list 
   public _getEmployeeData(numberofEmployee) {
     let that = this;
-    let getEmployeeDataUrl = that.props.siteUrl + `/_api/web/lists/GetByTitle('${that.props.listName}')/Items?$select=Id,${Constants.employeeTitle},${Constants.employeeName},${Constants.employeeDescription},${Constants.twitter},${Constants.instagram},${Constants.skype},${Constants.linkedIn},${Constants.employeeEmailLookUp}/EMail&$expand=${Constants.employeeEmailExpand}&$orderby=${Constants.modified} desc&$top=${numberofEmployee !== undefined && numberofEmployee !== null ? numberofEmployee : 4}`;
+    let getEmployeeDataUrl = that.props.siteUrl + `/_api/web/lists/GetByTitle('${that.props.listName}')/Items?$select=Id,${Constants.employeeDescription},${Constants.twitter},${Constants.instagram},${Constants.skype},${Constants.linkedIn},${Constants.employeeEmailLookUp}/EMail,${Constants.employeeEmailLookUp}/Title,${Constants.employeeEmailLookUp}/JobTitle,${Constants.employeeEmailLookUp}/Department&$expand=${Constants.employeeEmailExpand}&$orderby=${Constants.modified} desc&$top=${numberofEmployee !== undefined && numberofEmployee !== null ? numberofEmployee + 1 : 4}`;
     return new Promise((resolve, reject) => {
       that.props.spHttpClient.get(getEmployeeDataUrl, SPHttpClient.configurations.v1)
         .then((response) => {
@@ -30,20 +30,27 @@ export default class TechAdvocates extends React.Component<ITechAdvocatesProps, 
         .then((responseJSON) => {
           if (responseJSON.value !== undefined) {
             let employees: IEmployees[] = new Array();
-            responseJSON.value.map((employee) => {
-              let employeeObject: IEmployees = {
-                Id: employee.Id,
-                Title: employee[`${Constants.employeeTitle}`],
-                Name: employee[`${Constants.employeeName}`],
-                EMail: employee[`${Constants.employeeEmailLookUp}`].EMail,
-                Description: employee[`${Constants.employeeDescription}`],
-                LinkedIn: employee[`${Constants.linkedIn}`],
-                Twitter: employee[`${Constants.twitter}`],
-                Instagram: employee[`${Constants.instagram}`],
-                Skype: employee[`${Constants.skype}`],
-                EmployeePicture: `${this.props.siteUrl}/_layouts/15/userphoto.aspx?size=L&username=${employee.Email.EMail}`
-              };
-              employees.push(employeeObject);
+            responseJSON.value.map((employee, index) => {
+              //Exclude first record from displaying from the righ section of employee
+              if (index > 0) {
+                let employeeObject: IEmployees = {
+                  Id: employee.Id,
+                  Title:employee.Email.Title,
+                  Name: employee.Email.Title,
+                  Department:employee.Email.Department,
+                  JobTitle:employee.Email.JobTitle,
+                  EMail: employee[`${Constants.employeeEmailLookUp}`].EMail,
+                  Description: employee[`${Constants.employeeDescription}`],
+                  LinkedIn: employee[`${Constants.linkedIn}`],
+                  Twitter: employee[`${Constants.twitter}`],
+                  Instagram: employee[`${Constants.instagram}`],
+                  Skype: employee[`${Constants.skype}`],
+                  EmployeePicture: `${this.props.siteUrl}/_layouts/15/userphoto.aspx?size=L&username=${employee.Email.EMail}`
+                };
+                employees.push(employeeObject);
+              } else { //do nothing
+              }
+
             });
             if (employees.length > 0) {
               this.setState({
@@ -60,10 +67,10 @@ export default class TechAdvocates extends React.Component<ITechAdvocatesProps, 
         });
     });
   }
-  //Get Specific Employe information
-  public _getSpecificEmployee(itemID): any {
+  //Get Employee details from list 
+  public _updateEmplyeesInRightPanel(itemID) {
     let that = this;
-    let getEmployeeDataUrl = that.props.siteUrl + `/_api/web/lists/GetByTitle('${that.props.listName}')/Items?$select=Id,${Constants.employeeTitle},${Constants.employeeName},${Constants.employeeDescription},${Constants.twitter},${Constants.instagram},${Constants.skype},${Constants.linkedIn},${Constants.employeeEmailLookUp}/EMail&$expand=${Constants.employeeEmailExpand}&$orderby=${Constants.modified} desc&$Filter=ID eq ${itemID}`;
+    let getEmployeeDataUrl = that.props.siteUrl + `/_api/web/lists/GetByTitle('${that.props.listName}')/Items?$select=Id,${Constants.employeeDescription},${Constants.twitter},${Constants.instagram},${Constants.skype},${Constants.linkedIn},${Constants.employeeEmailLookUp}/EMail,${Constants.employeeEmailLookUp}/Title,${Constants.employeeEmailLookUp}/JobTitle,${Constants.employeeEmailLookUp}/Department&$expand=${Constants.employeeEmailExpand}&$orderby=${Constants.modified} desc&$Filter=ID ne ${itemID}`;
     return new Promise((resolve, reject) => {
       that.props.spHttpClient.get(getEmployeeDataUrl, SPHttpClient.configurations.v1)
         .then((response) => {
@@ -75,8 +82,64 @@ export default class TechAdvocates extends React.Component<ITechAdvocatesProps, 
             responseJSON.value.map((employee) => {
               let employeeObject: IEmployees = {
                 Id: employee.Id,
-                Title: employee[`${Constants.employeeTitle}`],
-                Name: employee[`${Constants.employeeName}`],
+                Title:employee.Email.Title,
+                Name: employee.Email.Title,
+                Department:employee.Email.Department,
+                JobTitle:employee.Email.JobTitle,
+                EMail: employee[`${Constants.employeeEmailLookUp}`].EMail,
+                Description: employee[`${Constants.employeeDescription}`],
+                LinkedIn: employee[`${Constants.linkedIn}`],
+                Twitter: employee[`${Constants.twitter}`],
+                Instagram: employee[`${Constants.instagram}`],
+                Skype: employee[`${Constants.skype}`],
+                EmployeePicture: `${this.props.siteUrl}/_layouts/15/userphoto.aspx?size=L&username=${employee.Email.EMail}`
+              };
+              employees.push(employeeObject);
+            });
+            if (employees.length > 0) {
+              this.setState({
+                employees
+              }, () => {
+                that._createJSXEmployeeRightPanel();
+              });
+            }
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          reject(error);
+        });
+    });
+  }
+
+  //Get Specific Employe information
+  public _getSpecificEmployee(itemID): any {
+    //Update right panel section  
+    if (itemID) { this._updateEmplyeesInRightPanel(itemID); }
+    let that = this;
+    let getEmployeeDataUrl;
+    //If ItemID is given then get specific employee
+    if (itemID) {
+      getEmployeeDataUrl = that.props.siteUrl + `/_api/web/lists/GetByTitle('${that.props.listName}')/Items?$select=Id,${Constants.employeeDescription},${Constants.twitter},${Constants.instagram},${Constants.skype},${Constants.linkedIn},${Constants.employeeEmailLookUp}/EMail,${Constants.employeeEmailLookUp}/Title,${Constants.employeeEmailLookUp}/JobTitle,${Constants.employeeEmailLookUp}/Department&$expand=${Constants.employeeEmailExpand}&$orderby=${Constants.modified} desc&$Filter=ID eq ${itemID}`;
+    } else {
+      getEmployeeDataUrl = that.props.siteUrl + `/_api/web/lists/GetByTitle('${that.props.listName}')/Items?$select=Id,${Constants.employeeDescription},${Constants.twitter},${Constants.instagram},${Constants.skype},${Constants.linkedIn},${Constants.employeeEmailLookUp}/EMail,${Constants.employeeEmailLookUp}/Title,${Constants.employeeEmailLookUp}/JobTitle,${Constants.employeeEmailLookUp}/Department&$expand=${Constants.employeeEmailExpand}&$orderby=${Constants.modified} desc&$top=1`;
+    }
+
+    return new Promise((resolve, reject) => {
+      that.props.spHttpClient.get(getEmployeeDataUrl, SPHttpClient.configurations.v1)
+        .then((response) => {
+          return response.json();
+        })
+        .then((responseJSON) => {
+          if (responseJSON.value !== undefined) {
+            let employees: IEmployees[] = new Array();
+            responseJSON.value.map((employee) => {
+              let employeeObject: IEmployees = {
+                Id: employee.Id,
+                Title:employee.Email.Title,
+                Name: employee.Email.Title,
+                Department:employee.Email.Department,
+                JobTitle:employee.Email.JobTitle,
                 EMail: employee[`${Constants.employeeEmailLookUp}`].EMail,
                 Description: employee[`${Constants.employeeDescription}`],
                 LinkedIn: employee[`${Constants.linkedIn}`],
@@ -115,7 +178,7 @@ export default class TechAdvocates extends React.Component<ITechAdvocatesProps, 
                 <div className="cs-ta-Image">
                   <img alt={employeeItem.Title} src={employeeItem.EmployeePicture} data-image={employeeItem.EmployeePicture} data-description={employeeItem.Description} />
                   <span className="employeeName">{employeeItem.Name}</span>
-                  <span className="employeeTitle">{employeeItem.Title}</span>
+                  <span className="employeeTitle">{employeeItem.JobTitle} {employeeItem.Department}</span>
                 </div>
               </div>
               <div className="ms-Grid-col ms-sm12 ms-md12 ms-lg6 cs-ta-descriptionSection">
@@ -154,13 +217,10 @@ export default class TechAdvocates extends React.Component<ITechAdvocatesProps, 
           employeeHTML: employeeData,
         });
       }
-    } 
+    }
   }
 
-  public _createJSXForEmployees(): any {
-    //Left Panel data
-    this._createJSXSpecificEmployee();
-
+  public _createJSXEmployeeRightPanel(): any {
     //Right Panel data 
     if (this.state.employees === null || this.state.employees === undefined || this.state.employees.length === 0) {
       //Do nothing
@@ -169,21 +229,21 @@ export default class TechAdvocates extends React.Component<ITechAdvocatesProps, 
         const onEmployeeClick = (): any => {
           this._getSpecificEmployee(employeeItem.Id);
         };
-        let emailLink="mailto:"+employeeItem.EMail;
+        let emailLink = "mailto:" + employeeItem.EMail;
         var mailName;
-        if(employeeItem.EMail){
-          mailName= employeeItem.EMail.substring(0, employeeItem.EMail.lastIndexOf("@"));
-        }  
+        if (employeeItem.EMail) {
+          mailName = employeeItem.EMail.substring(0, employeeItem.EMail.lastIndexOf("@"));
+        }
         return (
           <div className="ms-Grid-col ms-sm12 ms-md12 ms-lg12 rpEmployeeItem" onClick={onEmployeeClick}>
             <div className="cs-ta-RightImage">
               <img alt={employeeItem.Title} src={employeeItem.EmployeePicture} data-image={employeeItem.EmployeePicture} data-description={employeeItem.Description} />
               <span className="employeeName">{employeeItem.Name}</span>
-              <span className="employeeTitle">{employeeItem.Title}</span>
+              <span className="employeeTitle">{employeeItem.JobTitle} {employeeItem.Department}</span>
               <div className="mailToSection">
                 <i className="fa fa-envelope-o mailIcon"></i>
                 <span className="mailTo"><a href={emailLink}>@{mailName}</a></span>
-              </div>              
+              </div>
             </div>
           </div>
         );
@@ -196,10 +256,17 @@ export default class TechAdvocates extends React.Component<ITechAdvocatesProps, 
     }
   }
 
+  public _createJSXForEmployees(): any {
+     //Right Panel data
+    this._createJSXEmployeeRightPanel();
+
+  }
+
   //Compoenent Did Mount Event
   public componentDidMount() {
     if (this.props.listName !== undefined && this.props.listName !== null && this.props.listName !== "") {
       this._getEmployeeData(this.props.numerOfEmployee);
+      this._getSpecificEmployee('');
     }
   }
 

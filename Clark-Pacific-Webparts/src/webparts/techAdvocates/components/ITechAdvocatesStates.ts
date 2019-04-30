@@ -12,6 +12,8 @@ export interface IEmployees{
     EMail:string;
     EmployeePicture:string;
     Description:string;
+    Department:string;
+    JobTitle:string;
     LinkedIn:string;
     Instagram:string;
     Twitter:string;

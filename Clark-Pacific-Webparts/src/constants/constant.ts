@@ -1,5 +1,5 @@
 export default class Constants {
-    //Employee SpotLight & Tech Advocates Sharepoint list internal columns name
+    //Employee SpotLight Sharepoint list internal columns name
   public static readonly employeeTitle = "Title";
   public static readonly employeeName = "EmployeeName";
   public static readonly employeeEmailLookUp = "Email";
