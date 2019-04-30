@@ -1,0 +1,18 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/config.2.0.schema.json",
+  "version": "2.0",
+  "bundles": {
+    "clarkpacific-application-customizer-application-customizer": {
+      "components": [
+        {
+          "entrypoint": "./lib/extensions/clarkPacificApplicationCustomizer/ClarkPacificApplicationCustomizerApplicationCustomizer.js",
+          "manifest": "./src/extensions/clarkPacificApplicationCustomizer/ClarkPacificApplicationCustomizerApplicationCustomizer.manifest.json"
+        }
+      ]
+    }
+  },
+  "externals": {},
+  "localizedResources": {
+    "ClarkPacificApplicationCustomizerApplicationCustomizerStrings": "lib/extensions/clarkPacificApplicationCustomizer/loc/{locale}.js"
+  }
+}

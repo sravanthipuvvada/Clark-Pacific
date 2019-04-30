@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Elements xmlns="http://schemas.microsoft.com/sharepoint/">
+    <CustomAction
+        Title="ClarkPacificApplicationCustomizer"
+        Location="ClientSideExtension.ApplicationCustomizer"
+        ClientSideComponentId="47b4f75c-242c-4845-a119-82b6b5d0da2d"
+        ClientSideComponentProperties="{&quot;themeName&quot;:&quot;default&quot;}">
+    </CustomAction>
+</Elements>
