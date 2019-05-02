@@ -19,6 +19,8 @@ import * as $ from 'jquery';
 const LOG_SOURCE: string = 'ClarkPacificApplicationCustomizerApplicationCustomizer';
 
 const rootsitecollectionUrl = "https://clarkPacific.sharepoint.com";
+const listName="Apps";
+const listNameAlert="Alerts";
 
 /**
  * If your command set uses the ClientSideComponentProperties JSON input,
@@ -103,7 +105,10 @@ export default class ClarkPacificApplicationCustomizerApplicationCustomizer
       const element: React.ReactElement<ITenantGlobalHeaderBarProps> = React.createElement(
         TenantGlobalHeaderBar,
         {        
-          siteUrl: this.context.pageContext.web.absoluteUrl   
+          siteUrl: this.context.pageContext.web.absoluteUrl,          
+          spHttpClient: this.context.spHttpClient,
+          listName:listName,
+          listNameAlert:listNameAlert   
         }
       );         
       ReactDom.render(element,this._topPlaceholder.domElement);            

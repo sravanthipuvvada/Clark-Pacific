@@ -1,0 +1,66 @@
+:global{    
+    /*App CSS*/
+    .appSection span.appTitle {
+        display: block;
+    }
+    .appSection .appImage {       
+        text-align: center;
+        margin: 10px;
+        padding: 10px 5px 0px 5px;
+        border: 1.1px solid #ccc;
+        max-width: 90px;
+        max-height: 87px;
+        min-width: 90px;
+        min-height: 87px;
+        overflow: hidden;
+        display: inline-block;
+    }
+    .appSection .appImage:hover{
+        background: #ccc;
+    }
+    .appSection .appImage img {
+        width: 50px;
+        height: 50px;
+    }
+    .appSection span.appTitle {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    /*Alert CSS*/
+    .alertSection .alertItem {
+        padding: 5px 5px 5px 2px;
+        margin: 5px 7px 7px 0px;
+        border-bottom: 1px solid #ccc;
+        font-weight: 600;
+        cursor: pointer;
+    }
+    
+    .alertSection .alertItem:hover {
+        background: #ccc;
+        color: #fff;
+        cursor: pointer;
+    }
+    .ms-dialogMainOverrideEvents .ms-Dialog-header{
+        background-color:#fff;
+      }
+      .ms-dialogMainOverrideEvents {
+        width:100%!important;
+        max-width:660px!important;
+        max-height:calc(60vh + 240px)!important;
+        overflow-y:auto;
+        overflow-x:hidden;
+        padding:8px 6px 6px 0;
+      }
+      .popbold{
+          font-weight: 600;
+      }
+      .alertPDTitle,.alertPDDescription{
+        display: block;
+      }
+      .alertIcon{
+          padding-right: 5px;
+      }
+      
+}
