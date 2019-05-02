@@ -25,7 +25,7 @@ export default class EmployeeSpotlight extends React.Component<IEmployeeSpotligh
     //Get Employee details from list
     public _getEmployeeData(numberofEmployee) {
         let that = this;
-        let getEmployeeDataUrl = that.props.siteUrl + `/_api/web/lists/GetByTitle('${that.props.listName}')/Items?$select=Id,${Constants.employeeTitle},${Constants.employeeName},${Constants.employeeDescription},${Constants.employeeEmailLookUp}/EMail&$expand=${Constants.employeeEmailExpand}&$orderby=${Constants.modified} desc&$top=${numberofEmployee !== undefined && numberofEmployee !== null ? numberofEmployee : 4}`;
+        let getEmployeeDataUrl = that.props.siteUrl + `/_api/web/lists/GetByTitle('${that.props.listName}')/Items?$select=Id,${Constants.employeeDescription},${Constants.employeeEmailLookUp}/EMail,${Constants.employeeEmailLookUp}/Title,${Constants.employeeEmailLookUp}/JobTitle,${Constants.employeeEmailLookUp}/Department&$expand=${Constants.employeeEmailExpand}&$orderby=${Constants.modified} desc&$top=${numberofEmployee !== undefined && numberofEmployee !== null ? numberofEmployee : 4}`;
         return new Promise((resolve, reject) => {
             that.props.spHttpClient.get(getEmployeeDataUrl, SPHttpClient.configurations.v1)
                 .then((response) => {
@@ -34,15 +34,18 @@ export default class EmployeeSpotlight extends React.Component<IEmployeeSpotligh
                 .then((responseJSON) => {
                     if (responseJSON.value !== undefined) {
                         let employees: IEmployees[] = new Array();
-                        responseJSON.value.map((employee) => {
+                        responseJSON.value.map((employee) => {                            
                             let employeeObject: IEmployees = {
                                 Id: employee.Id,
-                                Title: employee[`${Constants.employeeTitle}`],
-                                Name: employee[`${Constants.employeeName}`],
+                                Title:employee.Email.Title,
+                                Name: employee.Email.Title,
+                                Department:employee.Email.Department,
+                                JobTitle:employee.Email.JobTitle,
                                 EMail: employee[`${Constants.employeeEmailLookUp}`].EMail,
                                 Description: employee[`${Constants.employeeDescription}`],
                                 EmployeePicture: `${this.props.siteUrl}/_layouts/15/userphoto.aspx?size=L&username=${employee.Email.EMail}`
-                            };
+                              };
+
                             employees.push(employeeObject);
                         });
                         if (employees.length > 0) {

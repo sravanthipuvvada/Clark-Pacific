@@ -11,4 +11,6 @@ export interface IEmployees{
     EMail:string;
     EmployeePicture:string;
     Description:string;
+    JobTitle:string;
+    Department:string;
 }
