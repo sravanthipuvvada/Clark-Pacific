@@ -222,8 +222,8 @@ export default class TenantGlobalHeaderBar extends React.Component<ITenantGlobal
         return (
             <div className="quickMenu" style={{ right: '20px', position: 'absolute' }}>
                 <div style={{ display: 'flex', alignItems: 'stretch', height: '35px' }}>
-                    <CommandBarButton data-automation-id="test2" iconProps={{ iconName: 'NugetLogo' }} text="Apps" onClick={this._onShowPanel} style={{ backgroundColor: 'white' }} />
-                    <CommandBarButton data-automation-id="test2" iconProps={{ iconName: 'Lifesaver' }} text="Resources" onClick={resourceClicked} style={{ backgroundColor: 'white' }} />
+                    <CommandBarButton data-automation-id="test2" iconProps={{ iconName: 'AssessmentGroup' }} text="Apps" onClick={this._onShowPanel} style={{ backgroundColor: 'white' }} />
+                    <CommandBarButton data-automation-id="test2" iconProps={{ iconName: 'Snowflake' }} text="Resources" onClick={resourceClicked} style={{ backgroundColor: 'white' }} />
                     <CommandBarButton data-automation-id="test2" iconProps={{ iconName: 'Warning' }} text="Alerts" onClick={this._onShowPanelAlert} style={{ backgroundColor: 'white' }} />
                     <CommandBarButton data-automation-id="test2" iconProps={{ iconName: 'Search' }} text="Search" onClick={searchClicked} style={{ backgroundColor: 'white' }} />
                 </div>

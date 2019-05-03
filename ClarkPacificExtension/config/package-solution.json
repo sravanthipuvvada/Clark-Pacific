@@ -2,7 +2,6 @@
   "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
   "solution": {
     "name": "clarkpacific-extension-client-side-solution",
-    //"id": "adaebdf9-a7c4-4e77-adee-f15ba74d4028",
     "id": "6daebdf9-a7c4-4e77-adee-f15ba74d4027",
     "version": "1.0.0.0",
     "includeClientSideAssets": true,

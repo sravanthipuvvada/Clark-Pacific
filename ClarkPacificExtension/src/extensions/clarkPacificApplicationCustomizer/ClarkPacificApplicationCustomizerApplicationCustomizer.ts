@@ -83,10 +83,8 @@ export default class ClarkPacificApplicationCustomizerApplicationCustomizer
     scriptTag.type = "text/javascript";
     head.insertAdjacentElement("beforeEnd", scriptTag);  
     
-    if (this.properties.themeName == "hub"){
-      // Call render method for generating the needed html elements
-      this._renderPlaceHolders();    
-    }
+    // Call render method for generating the needed html elements
+    this._renderPlaceHolders(); 
     return Promise.resolve<void>();    
   }
 
