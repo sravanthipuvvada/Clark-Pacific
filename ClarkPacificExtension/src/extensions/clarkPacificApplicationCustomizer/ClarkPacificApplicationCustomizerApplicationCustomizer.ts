@@ -104,7 +104,8 @@ export default class ClarkPacificApplicationCustomizerApplicationCustomizer
       }      
       const element: React.ReactElement<ITenantGlobalHeaderBarProps> = React.createElement(
         TenantGlobalHeaderBar,
-        {        
+        {      
+          rootSiteUrl:rootsitecollectionUrl,  
           siteUrl: this.context.pageContext.web.absoluteUrl,          
           spHttpClient: this.context.spHttpClient,
           listName:listName,

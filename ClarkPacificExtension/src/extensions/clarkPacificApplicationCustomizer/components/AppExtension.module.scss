@@ -7,7 +7,7 @@
         text-align: center;
         margin: 10px;
         padding: 10px 5px 0px 5px;
-        border: 1.1px solid #ccc;
+        border: 1.1px solid #f2f2f2f2;
         max-width: 90px;
         max-height: 87px;
         min-width: 90px;
@@ -15,8 +15,9 @@
         overflow: hidden;
         display: inline-block;
     }
-    .appSection .appImage:hover{
-        background: #ccc;
+    .appSection .appImage a{
+        text-decoration: none;
+        color: #000;
     }
     .appSection .appImage img {
         width: 50px;
@@ -35,13 +36,9 @@
         border-bottom: 1px solid #ccc;
         font-weight: 600;
         cursor: pointer;
+        color:#000;
     }
     
-    .alertSection .alertItem:hover {
-        background: #ccc;
-        color: #fff;
-        cursor: pointer;
-    }
     .ms-dialogMainOverrideEvents .ms-Dialog-header{
         background-color:#fff;
       }

@@ -10,7 +10,7 @@ import { Panel, PanelType } from 'office-ui-fabric-react/lib/Panel';
 import { DefaultButton } from 'office-ui-fabric-react/lib/Button';
 import { SPHttpClient } from '@microsoft/sp-http';
 import { Dialog, DialogType, DialogFooter } from 'office-ui-fabric-react/lib/Dialog';
-
+import { MessageBar} from 'office-ui-fabric-react/lib/MessageBar';
 
 export default class TenantGlobalHeaderBar extends React.Component<ITenantGlobalHeaderBarProps, ITenantGlobalHeaderBarState> {
     //Main constructor for the component 
@@ -47,7 +47,7 @@ export default class TenantGlobalHeaderBar extends React.Component<ITenantGlobal
     //Get all apps Data from list
     private _getAllApps() {
         let that = this;
-        let getAppsDataUrl = that.props.siteUrl + `/_api/web/lists/GetByTitle('${that.props.listName}')/Items?$select=Id,Title,Link,ImageUrl,Active&$orderby=Modified desc`;
+        let getAppsDataUrl = that.props.rootSiteUrl + `/_api/web/lists/GetByTitle('${that.props.listName}')/Items?$select=Id,Title,Link,ImageUrl,Active&$orderby=Modified desc`;
         return new Promise((resolve, reject) => {
             that.props.spHttpClient.get(getAppsDataUrl, SPHttpClient.configurations.v1)
                 .then((response) => {
@@ -65,14 +65,12 @@ export default class TenantGlobalHeaderBar extends React.Component<ITenantGlobal
                                 Active: app.Active
                             };
                             apps.push(appObject);
-                        });
-                        if (apps.length > 0) {
-                            this.setState({
-                                apps
-                            }, () => {
-                                that._createJSXForApps();
-                            });
-                        }
+                        });                 
+                        this.setState({
+                            apps
+                        }, () => {
+                            that._createJSXForApps();
+                        });                       
                     }
                 })
                 .catch((error) => {
@@ -84,7 +82,10 @@ export default class TenantGlobalHeaderBar extends React.Component<ITenantGlobal
 //Create JSX of apps to display in panel
     public _createJSXForApps(): any {
         if (this.state.apps === null || this.state.apps === undefined || this.state.apps.length === 0) {
-            //Do nothing
+            let appData= <MessageBar>No data found.</MessageBar>;
+            this.setState({
+                appsHTML: appData,
+            });
         } else {
             let appsData: JSX.Element[] = this.state.apps.map((appItem, index) => {
                 return (
@@ -123,7 +124,7 @@ export default class TenantGlobalHeaderBar extends React.Component<ITenantGlobal
       //Get all Alerts Data from list
     private _getAllAlerts() {
         let that = this;
-        let getAlertsDataUrl = that.props.siteUrl + `/_api/web/lists/GetByTitle('${that.props.listNameAlert}')/Items?$select=Id,Title,Description,Status&$orderby=Modified desc&$Filter=Status eq 'Active'`;
+        let getAlertsDataUrl = that.props.rootSiteUrl + `/_api/web/lists/GetByTitle('${that.props.listNameAlert}')/Items?$select=Id,Title,Description,Status&$orderby=Modified desc&$Filter=Status eq 'Active'`;
         return new Promise((resolve, reject) => {
             that.props.spHttpClient.get(getAlertsDataUrl, SPHttpClient.configurations.v1)
                 .then((response) => {
@@ -141,13 +142,11 @@ export default class TenantGlobalHeaderBar extends React.Component<ITenantGlobal
                             };
                             alerts.push(alertObject);
                         });
-                        if (alerts.length > 0) {
-                            this.setState({
-                                alerts
-                            }, () => {
-                                that._createJSXForAlerts();
-                            });
-                        }
+                        this.setState({
+                            alerts
+                        }, () => {
+                            that._createJSXForAlerts();
+                        });
                     }
                 })
                 .catch((error) => {
@@ -159,7 +158,10 @@ export default class TenantGlobalHeaderBar extends React.Component<ITenantGlobal
     //Create JSX of alerts to display in panel
     public _createJSXForAlerts(): any {
         if (this.state.alerts === null || this.state.alerts === undefined || this.state.alerts.length === 0) {
-            //Do nothing
+            let alertData= <MessageBar>No data found.</MessageBar>;
+            this.setState({
+                alertsHTML: alertData,
+            });
         } else {
             let alertsData: JSX.Element[] = this.state.alerts.map((alertItem, index) => {
                 const onPopupClick = (): any => {
@@ -193,7 +195,10 @@ export default class TenantGlobalHeaderBar extends React.Component<ITenantGlobal
     //Create JSX popup data of alert to display in panel
     public createModalContent(item): any {
         if (item === null || this.state.apps === undefined) {
-            //Do nothing
+            let alertData= <MessageBar>No data found.</MessageBar>;
+            this.setState({
+                alertHtmlModal: alertData,
+            });
         } else {
             let alertData: JSX.Element = <div className="alertPopUpData">
                 <div className="alertPDTitle"><span className="popbold">Title: </span>{item.Title}</div>
