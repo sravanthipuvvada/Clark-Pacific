@@ -194,7 +194,7 @@ export default class TenantGlobalHeaderBar extends React.Component<ITenantGlobal
     }
     //Create JSX popup data of alert to display in panel
     public createModalContent(item): any {
-        if (item === null || this.state.apps === undefined) {
+        if (item === null || item === undefined) {
             let alertData= <MessageBar>No data found.</MessageBar>;
             this.setState({
                 alertHtmlModal: alertData,
