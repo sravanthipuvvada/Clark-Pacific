@@ -201,8 +201,8 @@ export default class TenantGlobalHeaderBar extends React.Component<ITenantGlobal
             });
         } else {
             let alertData: JSX.Element = <div className="alertPopUpData">
-                <div className="alertPDTitle"><span className="popbold">Title: </span>{item.Title}</div>
-                <div className="alertPDDescription"><span className="popbold">Description :  </span>{item.Description}</div>
+                <div className="alertPDTitle"><span className="popbold title"></span>{item.Title}</div>
+                <div className="alertPDDescription"><span className="popbold"></span>{item.Description}</div>
             </div>;
             if (alertData) {
                 this.setState({
