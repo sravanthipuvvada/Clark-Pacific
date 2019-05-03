@@ -14,4 +14,12 @@ export default class Constants {
   public static readonly twitter="Twitter";
   public static readonly skype="Skype";
 
+  //Project Search
+  public static readonly jobID="JOBID";
+  public static readonly projectType="ProjectType";
+  public static readonly productType="ProductType";
+  public static readonly buildingType="BuildingType";
+  public static readonly contractValue="ContractValue";
+  public static readonly spm="SPM";
+  public static readonly pm="PM";
 }

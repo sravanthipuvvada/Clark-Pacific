@@ -1,0 +1,60 @@
+@import '~@microsoft/sp-office-ui-fabric-core/dist/sass/SPFabricCore.scss';
+:global{ 
+  .projectSearchHeader{
+    background: rgba(246, 141, 46, 1);
+    color:#fff;
+    font-size: 24px;  
+    padding:5px;
+    margin-bottom: 10px
+  }  
+  .projectSearchResult span.projectTitle {
+      display: block;
+  }
+  .projectSearchResult .projectTile {       
+      text-align: center;
+      margin: 5px 5px 0px 0px;
+      padding: 10px 5px 0px 5px;
+      border: 1.1px solid #f2f2f2f2;
+      max-width: 150px;
+      max-height: 150px;
+      min-width: 150px;
+      min-height: 150px;
+      overflow: hidden;
+      display: inline-block;
+      background: rgba(102, 102, 102, 1);
+      color:#fff;
+      cursor: pointer;
+  }
+  .projectSearchResult span.projectTitle {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-size: 18px;
+      padding-bottom: 10px;
+      text-align: left;
+  }
+ .popbold{
+      font-weight: 600;
+  }
+  .projectSearchResult span.projectItemInfo {
+    display: block;
+    text-align: left;
+}
+.searchElements {
+  max-width: 250px;
+  margin: 5px 5px 10px 0px;
+}
+
+.ms-dialogMainOverrideProjects .ms-Dialog-header{
+  background-color:#fff;
+}
+.ms-dialogMainOverrideProjects {
+  width:100%!important;
+  max-width:660px!important;
+  max-height:calc(60vh + 240px)!important;
+  overflow-y:auto;
+  overflow-x:hidden;
+  padding:8px 6px 6px 0;
+}
+
+}
