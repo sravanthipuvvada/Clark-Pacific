@@ -22,4 +22,5 @@ export default class Constants {
   public static readonly contractValue="ContractValue";
   public static readonly spm="SPM";
   public static readonly pm="PM";
+  public static readonly projectSiteLink="ProjectSiteLink";
 }
