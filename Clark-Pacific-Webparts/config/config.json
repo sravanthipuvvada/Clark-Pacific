@@ -26,6 +26,14 @@
         }
       ]
     },
+    "project-search-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/projectSearch/ProjectSearchWebPart.js",
+          "manifest": "./src/webparts/projectSearch/ProjectSearchWebPart.manifest.json"
+        }
+      ]
+    },
     "script-editor-bundle": {
       "components": [
         {
@@ -56,6 +64,7 @@
     "SocialMediaWebPartStrings": "lib/webparts/socialMedia/loc/{locale}.js",
     "TechAdvocatesWebPartStrings": "lib/webparts/techAdvocates/loc/{locale}.js",
     "EmployeeSpotlightWebPartStrings": "lib/webparts/employeeSpotlight/loc/{locale}.js",
+    "ProjectSearchWebPartStrings": "lib/webparts/projectSearch/loc/{locale}.js",
     "PropertyControlStrings": "node_modules/@pnp/spfx-property-controls/lib/loc/{locale}.js"
   }
 }

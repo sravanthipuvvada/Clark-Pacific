@@ -89,7 +89,7 @@ export default class ProjectSearch extends React.Component<IProjectSearchProps, 
     } else {
       let projectData: JSX.Element[] = this.state.projects.map((projectItem, index) => {
         const onPopupClick = (): any => {
-          this._showDialogModal(projectItem);
+          window.open(projectItem.ProjectSiteLink);
         };
         return (
           <div className="projectTile" onClick={onPopupClick}>
@@ -478,21 +478,7 @@ export default class ProjectSearch extends React.Component<IProjectSearchProps, 
       selectedProjectType: item.text
     }, () => { this.getFilterBasedResults(); });
   }
-  //Panel Events
-  private _showPanel = () => {
-    this.setState({ showPanel: true });
-  }
-  private _hidePanel = () => {
-    this.setState({ showPanel: false });
-  }
-  private _onRenderFooterContent = () => {
-    return (
-      <div>
-        <DefaultButton onClick={this._hidePanel}>Close</DefaultButton>
-      </div>
-    );
-  }
-
+  
   public componentDidMount() {
     if (this.props.listName !== undefined && this.props.listName !== null && this.props.listName !== "") {
       //Get all project details and create filter based on the result
@@ -506,8 +492,8 @@ export default class ProjectSearch extends React.Component<IProjectSearchProps, 
   public render(): React.ReactElement<IProjectSearchProps> {
     return (
       <div className="projectSearchSection">
-        <div className="projectSearchHeader">
-          <span className="wpHeader">{this.props.title}</span>
+        <div>
+          <span role="heading">{this.props.title}</span>
         </div>
         <div className="ms-Grid" dir="ltr">
           <div className="ms-Grid-row">
@@ -554,21 +540,9 @@ export default class ProjectSearch extends React.Component<IProjectSearchProps, 
             </div>
           </div>
         </div>
-
         <div className="projectSearchResult">
           {this.state.projectsHTML}
         </div>
-        <Panel
-          isOpen={this.state.showPanel}
-          type={PanelType.smallFixedFar}
-          onDismiss={this._hidePanel}
-          headerText="Project Details"
-          closeButtonAriaLabel="Close"
-          onRenderFooterContent={this._onRenderFooterContent}
-        >
-          {this.state.projectsHtmlModal}
-        </Panel>
-
       </div>
     );
   }
