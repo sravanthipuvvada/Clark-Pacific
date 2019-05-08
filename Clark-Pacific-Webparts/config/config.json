@@ -49,7 +49,7 @@
       "globalName": "jQuery"
     },
     "twitter": {
-      "path": "src/javascripts/twitter/widgets.js",
+      "path": "https://platform.twitter.com/widgets.js",
       "globalName": "twttr"
     },
     "socialstream": {

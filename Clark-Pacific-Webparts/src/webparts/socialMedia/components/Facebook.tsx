@@ -33,7 +33,7 @@ export default class Facebook extends React.Component<any, any>{
                   <iframe
                     src={this.buildIFrameUrl(width)}
                     width={width}
-                    height={this.props.height || 500}
+                    height={this.props.height || 300}
                     style={{
                       border: 'none',
                       overflow: 'hidden',

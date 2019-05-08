@@ -4,8 +4,11 @@
   .cs-es-description {
     color: #333;
     margin-right: 20px;
-    line-height: 25px;
-    min-height: 80px;
+    line-height: 23px;
+    min-height: 130px;
+    max-height: 130px;
+    overflow: hidden;
+    font-size: 15px;
   }
 
   .cs-es-dot {
@@ -20,18 +23,19 @@
   }
 
   .cs-es-dot.active {
-    background-color: #4A4D9E;
+    background-color: #f68d2e;
   }
 
   .cs-es-previousSlide,
   .cs-es-nextSlide {
     cursor: pointer;
   }
-
+  .cs-es-descriptionSection{
+    margin: 20px;
+  }
   div#cs-es-slider {
-    height: auto;
+    height: 380px;
     overflow: auto;
-    margin: -7px -7px -12px -7px;
   }
 
   .cs-es-previousSlide:hover,
@@ -57,18 +61,21 @@
     height: 100px;
     width: 100px;
   }
+  .cs-es-Image h3,.cs-es-Image h5, .cs-es-Image p {
+    margin: 5px;
+  }
 
-.esHeader {
+  .esHeader {
     font-size: 20px;
     text-transform: uppercase;
     font-weight: 600;
     padding-bottom: 5px;
-}
-.esHeader i.ms-Icon.ms-Icon--Snowflake.esHeaderIcon {
-  background: #f68d2e;
-  color: #fff;
-  padding: 7px;
-  vertical-align: top;
-}
+  }
+  .esHeader i.ms-Icon.ms-Icon--Snowflake.esHeaderIcon {
+    background: #f68d2e;
+    color: #fff;
+    padding: 7px;
+    vertical-align: top;
+  }
 
 }

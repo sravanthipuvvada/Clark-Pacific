@@ -71,7 +71,12 @@ export default class EmployeeSpotlight extends React.Component<IEmployeeSpotligh
             dotHTML.push(dotElement);
             return (
                 <div className="cs-es-employeeItem fade">
-                    <div className="cs-es-Image"><img alt={employeeItem.Title} src={employeeItem.EmployeePicture} data-image={employeeItem.EmployeePicture} data-description={employeeItem.Description} /></div>
+                    <div className="cs-es-Image">
+                        <img alt={employeeItem.Title} src={employeeItem.EmployeePicture} data-image={employeeItem.EmployeePicture} />
+                        <h3>{employeeItem.Title}</h3>
+                        <h5>{employeeItem.JobTitle}</h5>
+                        <p>{employeeItem.Department}</p>
+                    </div>
                     <div className="cs-es-descriptionSection">
                         <div className="cs-es-description">{employeeItem.Description}</div>
                     </div>

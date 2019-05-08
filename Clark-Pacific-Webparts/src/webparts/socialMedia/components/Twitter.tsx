@@ -41,7 +41,7 @@ public componentDidMount(){
     return (
       <a className="twitter-timeline" data-tweet-limit={this.props.twitterLimit}
       data-chrome={dataChrome}
-      href={twtterURL}>
+      href={twtterURL}>      
       </a>
     );
   }
