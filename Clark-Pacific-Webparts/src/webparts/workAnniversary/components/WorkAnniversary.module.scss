@@ -1,0 +1,23 @@
+@import '~@microsoft/sp-office-ui-fabric-core/dist/sass/SPFabricCore.scss';
+:global{
+  .workAnnivSection .wpHeader {
+    font-size: 24px;
+    text-transform: uppercase;
+    padding: 0px 0px 10px 0px;
+    font-weight: 600;
+  }
+  .workAnnivSection .wpHeaderIcon{
+    background: #f68d2e;
+    color: #fff;
+    padding: 7px;
+    vertical-align: top;
+    margin-right: 5px;
+  }
+  .workAnnivEmployees .personaItem {
+      margin-bottom: 10px;
+  }
+  .workAnnivEmployees .ms-Image.ms-Persona-image.image-120 {
+      border-radius: 0px;
+  }
+
+}

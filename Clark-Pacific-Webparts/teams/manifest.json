@@ -1,8 +1,8 @@
 {
   "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.2/MicrosoftTeams.schema.json",
   "manifestVersion": "1.2",
-  "packageName": "ProjectSearch",
-  "id": "f1e8f138-bb98-4ccd-9bad-687e67ad487c",
+  "packageName": "WorkAnniversary",
+  "id": "e5007636-b626-427d-94bc-8bcd87044bb2",
   "version": "0.1",
   "developer": {
     "name": "SPFx + Teams Dev",
@@ -11,11 +11,11 @@
     "termsOfUseUrl": "https://www.microsoft.com/en-us/servicesagreement"
   },
   "name": {
-    "short": "ProjectSearch"
+    "short": "WorkAnniversary"
   },
   "description": {
-    "short": "Project Search",
-    "full": "Project Search"
+    "short": "WorkAnniversary description",
+    "full": "WorkAnniversary description"
   },
   "icons": {
     "outline": "tab20x20.png",
@@ -24,7 +24,7 @@
   "accentColor": "#004578",
   "configurableTabs": [
     {
-      "configurationUrl": "https://{teamSiteDomain}{teamSitePath}/_layouts/15/TeamsLogon.aspx?SPFX=true&dest={teamSitePath}/_layouts/15/teamshostedapp.aspx%3FopenPropertyPane=true%26teams%26componentId=f1e8f138-bb98-4ccd-9bad-687e67ad487c",
+      "configurationUrl": "https://{teamSiteDomain}{teamSitePath}/_layouts/15/TeamsLogon.aspx?SPFX=true&dest={teamSitePath}/_layouts/15/teamshostedapp.aspx%3FopenPropertyPane=true%26teams%26componentId=e5007636-b626-427d-94bc-8bcd87044bb2",
       "canUpdateConfiguration": false,
       "scopes": [
         "team"

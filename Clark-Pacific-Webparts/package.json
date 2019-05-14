@@ -30,7 +30,11 @@
     "react": "16.3.2",
     "react-dom": "16.3.2",
     "react-linkedin-login-oauth2": "^1.0.6",
-    "react-linkedin-sdk": "^1.0.12"
+    "react-linkedin-sdk": "^1.0.12",
+    "moment": "^2.24.0",
+    "sp-pnp-js": "^3.0.10",
+    "@microsoft/sp-http": "^1.8.2",
+    "@microsoft/sp-loader": "^1.8.2"
   },
   "resolutions": {
     "@types/react": "16.4.2"
