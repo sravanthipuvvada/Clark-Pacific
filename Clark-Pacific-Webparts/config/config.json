@@ -49,6 +49,14 @@
           "manifest": "./src/webparts/workAnniversary/WorkAnniversaryWebPart.manifest.json"
         }
       ]
+    },
+    "my-projects-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/myProjects/MyProjectsWebPart.js",
+          "manifest": "./src/webparts/myProjects/MyProjectsWebPart.manifest.json"
+        }
+      ]
     }
   },
   "externals": {
@@ -74,6 +82,7 @@
     "EmployeeSpotlightWebPartStrings": "lib/webparts/employeeSpotlight/loc/{locale}.js",
     "ProjectSearchWebPartStrings": "lib/webparts/projectSearch/loc/{locale}.js",
     "PropertyControlStrings": "node_modules/@pnp/spfx-property-controls/lib/loc/{locale}.js",
-    "WorkAnniversaryWebPartStrings": "lib/webparts/workAnniversary/loc/{locale}.js"
+    "WorkAnniversaryWebPartStrings": "lib/webparts/workAnniversary/loc/{locale}.js",
+    "MyProjectsWebPartStrings": "lib/webparts/myProjects/loc/{locale}.js"
   }
 }

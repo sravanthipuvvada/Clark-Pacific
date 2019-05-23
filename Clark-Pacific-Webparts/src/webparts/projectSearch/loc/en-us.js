@@ -7,6 +7,6 @@ define([], function() {
     "TitleIconFieldLabel" : "Web Part Icon",
     "SiteURLFieldLabel":"Site URL",
     "ListNameLabel":"SharePoint List Name",    
-    "NumerOfRecords":"Number Of Records",
+    "NumberOfRecordsLabel":"Number Of Records",
   }
 });

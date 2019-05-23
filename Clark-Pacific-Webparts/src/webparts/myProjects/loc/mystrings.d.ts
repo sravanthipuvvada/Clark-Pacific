@@ -1,15 +1,15 @@
-declare interface IProjectSearchWebPartStrings {
+declare interface IMyProjectsWebPartStrings {
   PropertyPaneDescription: string;
   BasicGroupName: string;
   DescriptionFieldLabel: string;
   TitleFieldLabel:string;
   TitleIconFieldLabel:string;
+  NumberOfItemsLabel:string;
   SiteURLFieldLabel:string;
-  ListNameLabel:string;
-  NumberOfRecordsLabel:string; 
+  ListNameFieldLabel:string;
 }
 
-declare module 'ProjectSearchWebPartStrings' {
-  const strings: IProjectSearchWebPartStrings;
+declare module 'MyProjectsWebPartStrings' {
+  const strings: IMyProjectsWebPartStrings;
   export = strings;
 }

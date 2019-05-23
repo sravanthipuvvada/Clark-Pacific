@@ -395,7 +395,7 @@ export default class ProjectSearch extends React.Component<IProjectSearchProps, 
     let refinerParam = '';
     if (refinersValue && refinersValue != '') {
       if (refinerType === 'ContractValue') {
-        refinerParam = refinerType + " eq " + refinersValue;
+        refinerParam = refinerType + " eq '" + refinersValue + "'";
       } else {
         refinerParam = refinerType + " eq '" + refinersValue + "'";
       }

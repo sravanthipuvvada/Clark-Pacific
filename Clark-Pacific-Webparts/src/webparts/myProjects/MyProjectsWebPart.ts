@@ -6,31 +6,30 @@ import {
   IPropertyPaneConfiguration,
   PropertyPaneTextField
 } from '@microsoft/sp-webpart-base';
-import * as strings from 'ProjectSearchWebPartStrings';
-import ProjectSearch from './components/ProjectSearch';
-import { IProjectSearchProps } from './components/IProjectSearchProps';
 import { PropertyFieldNumber } from '@pnp/spfx-property-controls/lib/PropertyFieldNumber';
+import * as strings from 'MyProjectsWebPartStrings';
+import MyProjects from './components/MyProjects';
+import { IMyProjectsProps } from './components/IMyProjectsProps';
 
-export interface IProjectSearchWebPartProps {
-  listName: string;
-  siteUrl: string;
-  spHttpClient: any;
-  numberOfRecords:number;
+export interface IMyProjectsWebPartProps {
   title: string;
+  listName:string;
+  siteUrl:string;
   titleIcon:string;
+  numberOfItems:number;
 }
 
-export default class ProjectSearchWebPart extends BaseClientSideWebPart<IProjectSearchWebPartProps> {
+export default class MyProjectsWebPart extends BaseClientSideWebPart<IMyProjectsWebPartProps> {
 
   public render(): void {
-    const element: React.ReactElement<IProjectSearchProps > = React.createElement(
-      ProjectSearch,
-      {     
-        listName: this.properties.listName,
+    const element: React.ReactElement<IMyProjectsProps > = React.createElement(
+      MyProjects,
+      {
+        title: this.properties.title,
+        listName:this.properties.listName,
         siteUrl: this.properties.siteUrl,
         spHttpClient: this.context.spHttpClient,
-        numberOfRecords:this.properties.numberOfRecords,
-        title: this.properties.title,
+        numberOfItems: this.properties.numberOfItems,
         titleIcon: this.properties.titleIcon,
       }
     );
@@ -65,19 +64,19 @@ export default class ProjectSearchWebPart extends BaseClientSideWebPart<IProject
                 }),
                 PropertyPaneTextField('siteUrl', {
                   label: strings.SiteURLFieldLabel
-                }),
+                }),    
                 PropertyPaneTextField('listName', {
-                  label: strings.ListNameLabel
-                }),
-                PropertyFieldNumber("numberOfRecords", {
-                  key: "numberOfRecords",
-                  label: strings.NumberOfRecordsLabel,
-                  value: this.properties.numberOfRecords,
+                  label: strings.ListNameFieldLabel
+                }),          
+                PropertyFieldNumber("numberOfItems", {
+                  key: "numberOfItems",
+                  label: strings.NumberOfItemsLabel,
+                  value: this.properties.numberOfItems,
                   minValue: 1,
                   maxValue: 20,
                   disabled: false,
-                  description: "Enter a value in between 1-10"
-                })
+                  description: "Enter a value in between 1-20"
+                })                
               ]
             }
           ]
