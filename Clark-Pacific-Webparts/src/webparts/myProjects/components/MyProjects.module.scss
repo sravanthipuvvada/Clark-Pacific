@@ -1,0 +1,52 @@
+@import '~@microsoft/sp-office-ui-fabric-core/dist/sass/SPFabricCore.scss';
+:global{
+ 
+  .myProjectSection .captionElement_.wpHeader {
+    font-size: 25px;
+    font-weight: 600;
+}
+.myProjectSection i.titleIcon {
+    margin-right: 5px;
+}
+.myProjectContent span.projectTitle {
+  display: block;
+}
+	.myProjectContent .projectTile {
+		text-align: center;
+		margin: 5px 5px 0px 0px;
+		padding: 10px 5px 0px 5px;
+		border: 1.1px solid #f2f2f2f2;
+		max-width: 125px;
+		max-height: 125px;
+		min-width: 125px;
+		min-height: 125px;
+		overflow: hidden;
+		display: inline-block;
+		background: #F68D2E;
+		color: #fff;
+		cursor: pointer;
+	}
+	.myProjectContent span.projectTitle {
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		font-size: 18px;
+		padding-bottom: 10px;
+		text-align: left;
+	}
+	.popbold {
+		font-weight: 600;
+	}
+  .myProjectContent span.projectItemInfo {
+		display: block;
+		text-align: left;
+	}
+	.projectFilters .ms-Dropdown-container {
+		display: inline-block;
+		min-width: 150px;
+		margin-right: 10px;
+	}
+	.myProjectContent .projectTitle a {
+		text-decoration: none;
+	}
+}
