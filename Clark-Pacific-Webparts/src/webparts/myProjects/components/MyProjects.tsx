@@ -6,6 +6,7 @@ import { escape } from '@microsoft/sp-lodash-subset';
 import { SPHttpClient } from '@microsoft/sp-http';
 import Constants from "../../../constants/constant";
 import { MessageBar } from 'office-ui-fabric-react/lib/MessageBar'; 
+import { Members } from 'sp-pnp-js/lib/graph/members';
 
 export default class MyProjects extends React.Component<IMyProjectsProps, IMyProjectsStates> {
   constructor(props) {
@@ -20,7 +21,7 @@ export default class MyProjects extends React.Component<IMyProjectsProps, IMyPro
     return new Promise((resolve, reject) => {
       let that = this;
       if (this.props.listName !== undefined) {
-        let apiUrl = that.props.siteUrl + `/_api/web/lists/GetByTitle('${this.props.listName}')/Items?$select=ID,Title,${Constants.buildingType},${Constants.contractValue},${Constants.productType},${Constants.projectType},${Constants.projectSiteLink},${Constants.jobID}&$top=${that.props.numberOfItems == 0 || that.props.numberOfItems === undefined || that.props.numberOfItems === null ? 4 : that.props.numberOfItems}`;
+        let apiUrl = that.props.siteUrl + `/_api/web/lists/GetByTitle('${this.props.listName}')/Items?$select=ID,Title,${Constants.buildingType},${Constants.contractValue},${Constants.productType},${Constants.projectType},${Constants.projectSiteLink},${Constants.jobID},${Constants.spm}/Id,${Constants.spm}/Title,${Constants.spm}/EMail,${Constants.pm}/Id,${Constants.pm}/Title,${Constants.pm}/EMail,${Constants.members}/Id,${Constants.members}/Title,${Constants.members}/EMail&$expand=${Constants.spm},${Constants.pm},${Constants.members}&$top=${that.props.numberOfItems == 0 || that.props.numberOfItems === undefined || that.props.numberOfItems === null ? 4 : that.props.numberOfItems}&$filter=${Constants.spm}/EMail eq '${this.props.userEmail}' or ${Constants.pm}/EMail eq '${this.props.userEmail}' or ${Constants.members}/EMail eq '${this.props.userEmail}'`;
         that.props.spHttpClient.get(apiUrl, SPHttpClient.configurations.v1)
           .then((response) => {
             return response.json();

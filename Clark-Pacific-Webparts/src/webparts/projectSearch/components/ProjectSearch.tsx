@@ -12,8 +12,6 @@ import { DefaultButton } from 'office-ui-fabric-react/lib/Button';
 import { Dropdown, DropdownMenuItemType, IDropdownOption } from 'office-ui-fabric-react/lib/Dropdown';
 import { ChoiceGroup, IChoiceGroupOption } from 'office-ui-fabric-react/lib/ChoiceGroup';
 
-
-
 export default class ProjectSearch extends React.Component<IProjectSearchProps, IProjectSearchStates> {
   constructor(props) {
     super(props);
@@ -42,7 +40,7 @@ export default class ProjectSearch extends React.Component<IProjectSearchProps, 
   //Get Projects details from list 
   public _getProjectsData() {
     let that = this;
-    let getProjectDataUrl = that.props.siteUrl + `/_api/web/lists/GetByTitle('${that.props.listName}')/Items?$select=Id,Title,${Constants.projectType},${Constants.spm},${Constants.pm},${Constants.productType},${Constants.buildingType},${Constants.contractValue},${Constants.jobID},${Constants.projectSiteLink}&$orderby=${Constants.modified} desc&$top=20`;
+    let getProjectDataUrl = that.props.siteUrl + `/_api/web/lists/GetByTitle('${that.props.listName}')/Items?$select=Id,Title,${Constants.projectType},${Constants.productType},${Constants.buildingType},${Constants.contractValue},${Constants.jobID},${Constants.projectSiteLink},${Constants.spm}/Id,${Constants.spm}/Title,${Constants.spm}/EMail,${Constants.pm}/Id,${Constants.pm}/Title,${Constants.pm}/EMail,${Constants.members}/Id,${Constants.members}/Title,${Constants.members}/EMail&$expand=${Constants.spm},${Constants.pm},${Constants.members}&$orderby=${Constants.modified} desc&$top=20`;
     return new Promise((resolve, reject) => {
       that.props.spHttpClient.get(getProjectDataUrl, SPHttpClient.configurations.v1)
         .then((response) => {
@@ -60,8 +58,8 @@ export default class ProjectSearch extends React.Component<IProjectSearchProps, 
                 ProjectType: project[`${Constants.projectType}`],
                 BuildingType: project[`${Constants.buildingType}`],
                 ContractValue: project[`${Constants.contractValue}`],
-                SPM: project[`${Constants.spm}`],
-                PM: project[`${Constants.pm}`],
+                SPM: project.SPM.Title,
+                PM: project.PM.Title,
                 ProjectSiteLink: project.ProjectSiteLink.Url,
               };
               projects.push(projectObject);
@@ -145,9 +143,9 @@ export default class ProjectSearch extends React.Component<IProjectSearchProps, 
     let that = this;
     let getProjectDataUrl;
     if (searchItem) {
-      getProjectDataUrl = that.props.siteUrl + `/_api/web/lists/GetByTitle('${that.props.listName}')/Items?$select=Id,Title,${Constants.projectType},${Constants.spm},${Constants.pm},${Constants.productType},${Constants.buildingType},${Constants.contractValue},${Constants.jobID},${Constants.projectSiteLink}&$orderby=${Constants.modified} desc&$Filter=JOBID eq '${searchItem}'`;
+      getProjectDataUrl = that.props.siteUrl + `/_api/web/lists/GetByTitle('${that.props.listName}')/Items?$select=Id,Title,${Constants.projectType},${Constants.productType},${Constants.buildingType},${Constants.contractValue},${Constants.jobID},${Constants.projectSiteLink},${Constants.spm}/Id,${Constants.spm}/Title,${Constants.spm}/EMail,${Constants.pm}/Id,${Constants.pm}/Title,${Constants.pm}/EMail,${Constants.members}/Id,${Constants.members}/Title,${Constants.members}/EMail&$expand=${Constants.spm},${Constants.pm},${Constants.members}&$orderby=${Constants.modified} desc&$Filter=JOBID eq '${searchItem}'`;
     } else {
-      getProjectDataUrl = that.props.siteUrl + `/_api/web/lists/GetByTitle('${that.props.listName}')/Items?$select=Id,Title,${Constants.projectType},${Constants.spm},${Constants.pm},${Constants.productType},${Constants.buildingType},${Constants.contractValue},${Constants.jobID},${Constants.projectSiteLink}&$orderby=${Constants.modified} desc&$Top=20`;
+      getProjectDataUrl = that.props.siteUrl + `/_api/web/lists/GetByTitle('${that.props.listName}')/Items?$select=Id,Title,${Constants.projectType},${Constants.productType},${Constants.buildingType},${Constants.contractValue},${Constants.jobID},${Constants.projectSiteLink},${Constants.spm}/Id,${Constants.spm}/Title,${Constants.spm}/EMail,${Constants.pm}/Id,${Constants.pm}/Title,${Constants.pm}/EMail,${Constants.members}/Id,${Constants.members}/Title,${Constants.members}/EMail&$expand=${Constants.spm},${Constants.pm},${Constants.members}&$orderby=${Constants.modified} desc&$Top=20`;
     }
     return new Promise((resolve, reject) => {
       that.props.spHttpClient.get(getProjectDataUrl, SPHttpClient.configurations.v1)
@@ -166,8 +164,8 @@ export default class ProjectSearch extends React.Component<IProjectSearchProps, 
                 ProjectType: project[`${Constants.projectType}`],
                 BuildingType: project[`${Constants.buildingType}`],
                 ContractValue: project[`${Constants.contractValue}`],
-                SPM: project[`${Constants.spm}`],
-                PM: project[`${Constants.pm}`],
+                SPM: project.SPM.Title,
+                PM: project.PM.Title,
                 ProjectSiteLink: project.ProjectSiteLink.Url,
               };
               projects.push(projectObject);
@@ -188,7 +186,7 @@ export default class ProjectSearch extends React.Component<IProjectSearchProps, 
   //Get Projects details from list 
   public _getAllProjectsData() {
     let that = this;
-    let getProjectDataUrl = that.props.siteUrl + `/_api/web/lists/GetByTitle('${that.props.listName}')/Items?$select=Id,Title,${Constants.projectType},${Constants.spm},${Constants.pm},${Constants.productType},${Constants.buildingType},${Constants.contractValue},${Constants.jobID},${Constants.projectSiteLink}&$orderby=${Constants.modified} desc&$top=4999`;
+    let getProjectDataUrl = that.props.siteUrl + `/_api/web/lists/GetByTitle('${that.props.listName}')/Items?$select=Id,Title,${Constants.projectType},${Constants.productType},${Constants.buildingType},${Constants.contractValue},${Constants.jobID},${Constants.projectSiteLink},${Constants.spm}/Id,${Constants.spm}/Title,${Constants.spm}/EMail,${Constants.pm}/Id,${Constants.pm}/Title,${Constants.pm}/EMail,${Constants.members}/Id,${Constants.members}/Title,${Constants.members}/EMail&$expand=${Constants.spm},${Constants.pm},${Constants.members}&$orderby=${Constants.modified} desc&$top=4999`;
     return new Promise((resolve, reject) => {
       that.props.spHttpClient.get(getProjectDataUrl, SPHttpClient.configurations.v1)
         .then((response) => {
@@ -206,8 +204,8 @@ export default class ProjectSearch extends React.Component<IProjectSearchProps, 
                 ProjectType: project[`${Constants.projectType}`],
                 BuildingType: project[`${Constants.buildingType}`],
                 ContractValue: project[`${Constants.contractValue}`],
-                SPM: project[`${Constants.spm}`],
-                PM: project[`${Constants.pm}`],
+                SPM: project.SPM.Title,
+                PM: project.PM.Title,
                 ProjectSiteLink: project.ProjectSiteLink.Url,
               };
               allProjects.push(projectObject);
@@ -412,7 +410,7 @@ export default class ProjectSearch extends React.Component<IProjectSearchProps, 
 
     let refinerParam = this.getFilterParam(filteredProjectType,filteredProductType, filteredBuildingType, filteredContractValue);
     let that = this;
-    let getProjectDataUrl = that.props.siteUrl + `/_api/web/lists/GetByTitle('${that.props.listName}')/Items?$select=Id,Title,${Constants.projectType},${Constants.spm},${Constants.pm},${Constants.productType},${Constants.buildingType},${Constants.contractValue},${Constants.jobID},${Constants.projectSiteLink}&$orderby=${Constants.modified} desc&$Filter=${refinerParam}`;
+    let getProjectDataUrl = that.props.siteUrl + `/_api/web/lists/GetByTitle('${that.props.listName}')/Items?$select=Id,Title,${Constants.projectType},${Constants.productType},${Constants.buildingType},${Constants.contractValue},${Constants.jobID},${Constants.projectSiteLink},${Constants.spm}/Id,${Constants.spm}/Title,${Constants.spm}/EMail,${Constants.pm}/Id,${Constants.pm}/Title,${Constants.pm}/EMail,${Constants.members}/Id,${Constants.members}/Title,${Constants.members}/EMail&$expand=${Constants.spm},${Constants.pm},${Constants.members}&$orderby=${Constants.modified} desc&$Filter=${refinerParam}`;
 
     return new Promise((resolve, reject) => {
       that.props.spHttpClient.get(getProjectDataUrl, SPHttpClient.configurations.v1)
@@ -431,8 +429,8 @@ export default class ProjectSearch extends React.Component<IProjectSearchProps, 
                 ProjectType: project[`${Constants.projectType}`],
                 BuildingType: project[`${Constants.buildingType}`],
                 ContractValue: project[`${Constants.contractValue}`],
-                SPM: project[`${Constants.spm}`],
-                PM: project[`${Constants.pm}`],
+                SPM: project.SPM.Title,
+                PM: project.PM.Title,
                 ProjectSiteLink: project.ProjectSiteLink.Url,
               };
               projects.push(projectObject);

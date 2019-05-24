@@ -5,4 +5,5 @@ export interface IMyProjectsProps {
   spHttpClient:any;
   titleIcon:string;
   numberOfItems:number;
+  userEmail:string;
 }

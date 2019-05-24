@@ -30,10 +30,10 @@ export default class MyProjectsWebPart extends BaseClientSideWebPart<IMyProjects
         siteUrl: this.properties.siteUrl,
         spHttpClient: this.context.spHttpClient,
         numberOfItems: this.properties.numberOfItems,
-        titleIcon: this.properties.titleIcon,
+        titleIcon: this.properties.titleIcon,      
+        userEmail:this.context.pageContext.user.email
       }
     );
-
     ReactDom.render(element, this.domElement);
   }
 

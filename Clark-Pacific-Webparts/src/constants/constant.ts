@@ -23,4 +23,5 @@ export default class Constants {
   public static readonly spm="SPM";
   public static readonly pm="PM";
   public static readonly projectSiteLink="ProjectSiteLink";
+  public static readonly members="Members";
 }
