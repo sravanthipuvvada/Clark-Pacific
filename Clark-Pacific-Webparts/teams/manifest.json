@@ -1,8 +1,8 @@
 {
   "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.2/MicrosoftTeams.schema.json",
   "manifestVersion": "1.2",
-  "packageName": "MyProjects",
-  "id": "404a6e81-b06a-44f3-8153-6276e1690b9e",
+  "packageName": "MyShortcuts",
+  "id": "fbfa46e1-fd36-4e79-b923-48838c58dcfd",
   "version": "0.1",
   "developer": {
     "name": "SPFx + Teams Dev",
@@ -11,11 +11,11 @@
     "termsOfUseUrl": "https://www.microsoft.com/en-us/servicesagreement"
   },
   "name": {
-    "short": "MyProjects"
+    "short": "MyShortcuts"
   },
   "description": {
-    "short": "MyProjects description",
-    "full": "MyProjects description"
+    "short": "My Shortcuts",
+    "full": "My Shortcuts"
   },
   "icons": {
     "outline": "tab20x20.png",
@@ -24,7 +24,7 @@
   "accentColor": "#004578",
   "configurableTabs": [
     {
-      "configurationUrl": "https://{teamSiteDomain}{teamSitePath}/_layouts/15/TeamsLogon.aspx?SPFX=true&dest={teamSitePath}/_layouts/15/teamshostedapp.aspx%3FopenPropertyPane=true%26teams%26componentId=404a6e81-b06a-44f3-8153-6276e1690b9e",
+      "configurationUrl": "https://{teamSiteDomain}{teamSitePath}/_layouts/15/TeamsLogon.aspx?SPFX=true&dest={teamSitePath}/_layouts/15/teamshostedapp.aspx%3FopenPropertyPane=true%26teams%26componentId=fbfa46e1-fd36-4e79-b923-48838c58dcfd",
       "canUpdateConfiguration": false,
       "scopes": [
         "team"

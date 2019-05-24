@@ -24,4 +24,10 @@ export default class Constants {
   public static readonly pm="PM";
   public static readonly projectSiteLink="ProjectSiteLink";
   public static readonly members="Members";
+
+  //My Shortcut
+  public static readonly createdBy="Author";
+  public static readonly url="Url";
+  public static readonly displayOrder="DisplayOrder";
+  public static readonly icon="Icon";
 }

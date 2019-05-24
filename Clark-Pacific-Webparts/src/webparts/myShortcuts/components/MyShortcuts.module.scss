@@ -1,0 +1,26 @@
+@import '~@microsoft/sp-office-ui-fabric-core/dist/sass/SPFabricCore.scss';
+:global{
+  .myShortcutSection .linkWpTitleIcon{
+    margin-right: 5px;
+  }
+   .myShortcutSection .linkIcon {
+      background: #F68D2E;
+      padding: 5px;
+      margin: 5px;
+      color: #fff;
+      border-radius: 50%;
+      vertical-align: middle;
+  }
+  .myShortcutSection span.linkItemTitle {
+      vertical-align: middle;
+      font-size: 15px;
+      font-weight: 350;
+  }
+  .myShortcutSection .captionElement_.wpHeader {
+      font-size: 20px;
+      padding-bottom: 5px;
+  }
+  .myShortcutSection .linkItem:hover {
+      cursor: pointer;
+  }
+}
