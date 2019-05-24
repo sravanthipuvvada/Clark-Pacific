@@ -6,7 +6,6 @@ import { escape } from '@microsoft/sp-lodash-subset';
 import { SPHttpClient } from '@microsoft/sp-http';
 import Constants from "../../../constants/constant";
 import { MessageBar } from 'office-ui-fabric-react/lib/MessageBar'; 
-import { Members } from 'sp-pnp-js/lib/graph/members';
 
 export default class MyProjects extends React.Component<IMyProjectsProps, IMyProjectsStates> {
   constructor(props) {
