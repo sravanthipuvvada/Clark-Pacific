@@ -23,4 +23,17 @@
   .myShortcutSection .linkItem:hover {
       cursor: pointer;
   }
+  .esHeader {
+    font-size: 20px;
+    text-transform: uppercase;
+    font-weight: 600;
+    padding-bottom: 5px;
+  }
+  .esHeader .esHeaderIcon {
+    background: #f68d2e;
+    color: #fff;
+    padding: 7px;
+    vertical-align: top;
+    margin-right: 10px;
+  }
 }

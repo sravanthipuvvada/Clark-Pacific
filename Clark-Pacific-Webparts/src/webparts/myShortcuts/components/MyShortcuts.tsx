@@ -68,7 +68,7 @@ export default class MyShortcuts extends React.Component<IMyShortcutsProps, IMyS
         };
         return (
           <div className="linkItem" onClick={onPopupClick}>
-            <span><IconButton iconProps={{ iconName: linkItem.Icon }}  className="linkIcon" /> <span className="linkItemTitle"> {linkItem.Title}</span>  </span>
+            <span><IconButton iconProps={{ iconName: linkItem.Icon }}  className="linkIcon" /> <span className="linkItemTitle"> {linkItem.Title}</span> </span>
           </div>
         );
       });
@@ -87,8 +87,7 @@ export default class MyShortcuts extends React.Component<IMyShortcutsProps, IMyS
   public render(): React.ReactElement<IMyShortcutsProps> {
     return (
       <div className="myShortcutSection">
-        <div className="webpartHeader"><div className="captionElement_ wpHeader">
-          <span><IconButton iconProps={{ iconName: this.props.titleIcon }} className="linkWpTitleIcon" /><span role="heading">{this.props.title}</span></span></div></div>
+         <div className="esHeader"> <i className="ms-Icon ms-Icon--Link esHeaderIcon" aria-hidden="true"></i>{this.props.title}</div> 
         <div className="myShortcutContent">
           {this.state.linkJSX}
         </div>

@@ -92,7 +92,7 @@ export default class MyProjects extends React.Component<IMyProjectsProps, IMyPro
 
     return (
       <div className="myProjectSection">
-        <div className="webpartHeader"><div className="captionElement_ wpHeader"><i className={titleIcon}></i><span role="heading">{this.props.title}</span></div></div>
+        <div className="esHeader"><i className="ms-Icon ms-Icon--ProjectLogo32 esHeaderIcon" aria-hidden="true"></i>{this.props.title}</div>
         <div className="myProjectContent">
           {this.state.projectJSX}
         </div>

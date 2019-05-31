@@ -1,16 +1,16 @@
 @import '~@microsoft/sp-office-ui-fabric-core/dist/sass/SPFabricCore.scss';
 :global{
  
-  .myProjectSection .captionElement_.wpHeader {
-    font-size: 25px;
-    font-weight: 600;
-}
-.myProjectSection i.titleIcon {
-    margin-right: 5px;
-}
-.myProjectContent span.projectTitle {
-  display: block;
-}
+   .myProjectSection .captionElement_.wpHeader {
+		font-size: 25px;
+		font-weight: 600;
+	}
+	.myProjectSection i.titleIcon {
+		margin-right: 5px;
+	}
+	.myProjectContent span.projectTitle {
+		display: block;
+	}
 	.myProjectContent .projectTile {
 		text-align: center;
 		margin: 5px 5px 0px 0px;
@@ -37,7 +37,7 @@
 	.popbold {
 		font-weight: 600;
 	}
-  .myProjectContent span.projectItemInfo {
+    .myProjectContent span.projectItemInfo {
 		display: block;
 		text-align: left;
 	}
@@ -48,5 +48,18 @@
 	}
 	.myProjectContent .projectTitle a {
 		text-decoration: none;
+	}
+	.esHeader {
+		font-size: 20px;
+		text-transform: uppercase;
+		font-weight: 600;
+		padding-bottom: 5px;
+	}
+	.esHeader .esHeaderIcon {
+		background: #f68d2e;
+		color: #fff;
+		padding: 7px;
+		vertical-align: top;
+		margin-right: 10px;
 	}
 }

@@ -490,9 +490,7 @@ export default class ProjectSearch extends React.Component<IProjectSearchProps, 
   public render(): React.ReactElement<IProjectSearchProps> {
     return (
       <div className="projectSearchSection">
-        <div>
-          <span role="heading">{this.props.title}</span>
-        </div>
+       <div className="esHeader"> <i className="ms-Icon ms-Icon--ProjectLogoInverse esHeaderIcon" aria-hidden="true"></i>{this.props.title}</div>
         <div className="ms-Grid" dir="ltr">
           <div className="ms-Grid-row">
             <div className="ms-Grid-col ms-sm12 ms-md6 ms-lg4 lefttPanelSection">
