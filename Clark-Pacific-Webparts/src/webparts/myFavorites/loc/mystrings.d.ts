@@ -1,7 +1,8 @@
-declare interface IMyShortcutsWebPartStrings {
+declare interface IMyFavoritesWebPartStrings {
   PropertyPaneDescription: string;
   BasicGroupName: string;
   DescriptionFieldLabel: string;
+  NumerOfLinks:string;
   TitleFieldLabel:string;
   TitleIconFieldLabel:string;
   NumberOfItemsLabel:string;
@@ -9,7 +10,7 @@ declare interface IMyShortcutsWebPartStrings {
   ListNameFieldLabel:string;
 }
 
-declare module 'MyShortcutsWebPartStrings' {
-  const strings: IMyShortcutsWebPartStrings;
+declare module 'MyFavoritesWebPartStrings' {
+  const strings: IMyFavoritesWebPartStrings;
   export = strings;
 }
