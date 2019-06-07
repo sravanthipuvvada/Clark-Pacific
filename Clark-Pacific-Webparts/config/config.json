@@ -65,6 +65,14 @@
           "manifest": "./src/webparts/myFavorites/MyFavoritesWebPart.manifest.json"
         }
       ]
+    },
+    "project-site-request-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/projectSiteRequest/ProjectSiteRequestWebPart.js",
+          "manifest": "./src/webparts/projectSiteRequest/ProjectSiteRequestWebPart.manifest.json"
+        }
+      ]
     }
   },
   "externals": {
@@ -92,6 +100,7 @@
     "PropertyControlStrings": "node_modules/@pnp/spfx-property-controls/lib/loc/{locale}.js",
     "WorkAnniversaryWebPartStrings": "lib/webparts/workAnniversary/loc/{locale}.js",
     "MyProjectsWebPartStrings": "lib/webparts/myProjects/loc/{locale}.js",
-    "MyFavoritesWebPartStrings": "lib/webparts/MyFavorites/loc/{locale}.js"
+    "MyFavoritesWebPartStrings": "lib/webparts/MyFavorites/loc/{locale}.js",
+    "ProjectSiteRequestWebPartStrings": "lib/webparts/projectSiteRequest/loc/{locale}.js"
   }
 }
