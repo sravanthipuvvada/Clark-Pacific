@@ -29,7 +29,8 @@ export default class ProjectSiteRequestWebPart extends BaseClientSideWebPart<IPr
         siteUrl: this.properties.siteUrl,
         spHttpClient: this.context.spHttpClient,
         title: this.properties.title,
-        titleIcon: this.properties.titleIcon,
+        titleIcon: this.properties.titleIcon,        
+        context: this.context
       }
     );
 

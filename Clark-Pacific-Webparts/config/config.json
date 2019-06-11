@@ -101,6 +101,7 @@
     "WorkAnniversaryWebPartStrings": "lib/webparts/workAnniversary/loc/{locale}.js",
     "MyProjectsWebPartStrings": "lib/webparts/myProjects/loc/{locale}.js",
     "MyFavoritesWebPartStrings": "lib/webparts/MyFavorites/loc/{locale}.js",
-    "ProjectSiteRequestWebPartStrings": "lib/webparts/projectSiteRequest/loc/{locale}.js"
+    "ProjectSiteRequestWebPartStrings": "lib/webparts/projectSiteRequest/loc/{locale}.js",
+    "ControlStrings": "node_modules/@pnp/spfx-controls-react/lib/loc/{locale}.js"
   }
 }
