@@ -171,7 +171,7 @@ export default class ProjectSiteRequest extends React.Component<IProjectSiteRequ
 
   }
 
-  public componentDidMount(){
+  public componentDidMount = () => {
     this.BindDropDowns();
   }
 
