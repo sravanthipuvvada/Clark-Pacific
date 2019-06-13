@@ -21,7 +21,12 @@ export interface IProjectSiteCreationStates {
   peUserEmail:string;
   memberUsersEmailArray:{}[];
   jobIdErrorMessage:string;
+  siteType:string;
+  siteTitle:string;
+  siteURL:string;
+  client:string;
  
+
   jurisdictionUserId: Number;
   spmUserId:Number;
   pmUserId:Number;
@@ -41,6 +46,8 @@ export interface IProjectSiteCreationStates {
   contractValue:IDropDown[];
   deliveryMode:IDropDown[];
   
+  resetProjectType:string;
+
  }
  
  export interface ISPListColumn {
