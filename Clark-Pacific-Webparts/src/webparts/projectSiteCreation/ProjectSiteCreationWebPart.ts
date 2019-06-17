@@ -10,6 +10,7 @@ import {
 import * as strings from 'ProjectSiteCreationWebPartStrings';
 import ProjectSiteCreation from './components/ProjectSiteCreation';
 import { IProjectSiteCreationProps } from './components/IProjectSiteCreationProps';
+import { default as pnp, ItemAddResult, Web, List, Item } from "sp-pnp-js";
 
 export interface IProjectSiteCreationWebPartProps {
   listName: string;
@@ -20,7 +21,16 @@ export interface IProjectSiteCreationWebPartProps {
 }
 
 export default class ProjectSiteCreationWebPart extends BaseClientSideWebPart<IProjectSiteCreationWebPartProps> {
+  public onInit(): Promise<void> {
 
+    return super.onInit().then(_ => {
+  
+      pnp.setup({
+        spfxContext: this.context
+      });
+      
+    });
+  }
   public render(): void {
     const element: React.ReactElement<IProjectSiteCreationProps > = React.createElement(
       ProjectSiteCreation,

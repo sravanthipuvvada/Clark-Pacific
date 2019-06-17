@@ -491,9 +491,6 @@ export default class ProjectSiteCreation extends React.Component<IProjectSiteCre
       peUserEmail:'',
       memberUsersEmailArray:[],
       memberUsersIdArray:[]
-
-
-
       
     });
 
