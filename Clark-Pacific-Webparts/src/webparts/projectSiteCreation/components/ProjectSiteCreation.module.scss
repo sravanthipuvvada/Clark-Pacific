@@ -66,52 +66,52 @@
     padding-left: 0px;
  }
  .addNewLinkSection button:hover{
-   background: transparent !important;
-   border:0!important;
- }
- .ms-dialogMainOverrideLink{
-   overflow: hidden;
- }
- .ms-dialogMainOverrideLink .ms-Dialog-header{
-   background-color: #00a0dd;
- }
- .hideControl{
-   display: none;
- }
+    background: transparent !important;
+    border:0!important;
+  }
+  .ms-dialogMainOverrideLink{
+    overflow: hidden;
+  }
+  .ms-dialogMainOverrideLink .ms-Dialog-header{
+    background-color: #00a0dd;
+  }
+  .hideControl{
+    display: none;
+  }
  .ms-dialogMainOverrideEvents .ms-Dialog-header{
   background-color:#fff;
-}
-.ms-dialogMainOverrideEvents {
-  width:100%!important;
-  max-width:660px!important;
-  max-height:calc(60vh + 240px)!important;
-  overflow-y:auto;
-  overflow-x:hidden;
-  padding:8px 6px 6px 0;
-}
+  }
+  .ms-dialogMainOverrideEvents {
+    width:100%!important;
+    max-width:660px!important;
+    max-height:calc(60vh + 240px)!important;
+    overflow-y:auto;
+    overflow-x:hidden;
+    padding:8px 6px 6px 0;
+  }
 
-.addNewLinkSection button{
-  float: right !important; 
-  background:#ec63a9 !important; 
-  color: #fff !important; 
-  border-radius: 3px !important;  
-  padding: 5px;
-  font-weight: 300;
-}
-.addNewLinkSection button:hover {
-  background: #303394 !important; 
-}
-.addNewLinkSection .ms-Button-label{
-  font-weight: 300;
-}
-.addNewLinkSection .ms-ListBasicExample-itemCell:hover{
-  background: #303394 !important;
-  color: #fff !important;
-}
-.addNewLinkSection button:hover{
-  background: #303394 !important;
-}
-.linkTitleIcon{
+  .addNewLinkSection button{
+    float: right !important; 
+    background:#ec63a9 !important; 
+    color: #fff !important; 
+    border-radius: 3px !important;  
+    padding: 5px;
+    font-weight: 300;
+  }
+  .addNewLinkSection button:hover {
+    background: #303394 !important; 
+  }
+  .addNewLinkSection .ms-Button-label{
+    font-weight: 300;
+  }
+  .addNewLinkSection .ms-ListBasicExample-itemCell:hover{
+    background: #303394 !important;
+    color: #fff !important;
+  }
+  .addNewLinkSection button:hover{
+    background: #303394 !important;
+  }
+  .linkTitleIcon{
     color: #E7338D;
     padding-right: 5px;
     font-weight: 600;
@@ -136,143 +136,11 @@
     overflow-y: auto;
     overflow-x: hidden;
   }
+  .projectSiteRequestSection{
+    max-width: 500px;
+  }
+  div[class*="pageTitle_"]{
+    display: none;
+  }
 }
 
-// :global{
-
-//  .projectSiteCreation {
-//   .container {
-//     max-width: 700px;
-//     margin: 0px auto;
-//     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 25px 50px 0 rgba(0, 0, 0, 0.1);
-//   }
-
-//   .row {
-//     @include ms-Grid-row;
-//     @include ms-fontColor-white;
-//     background-color: $ms-color-themeDark;
-//     padding: 20px;
-//   }
-
-//   .column {
-//     @include ms-Grid-col;
-//     @include ms-lg10;
-//     @include ms-xl8;
-//     @include ms-xlPush2;
-//     @include ms-lgPush1;
-//   }
-
-//   .title {
-//     @include ms-font-xl;
-//     @include ms-fontColor-white;
-//   }
-
-//   .subTitle {
-//     @include ms-font-l;
-//     @include ms-fontColor-white;
-//   }
-
-//   .description {
-//     @include ms-font-l;
-//     @include ms-fontColor-white;
-//   }
-
-//   .button {
-//     // Our button
-//     text-decoration: none;
-//     height: 32px;
-
-//     // Primary Button
-//     min-width: 80px;
-//     background-color: $ms-color-themePrimary;
-//     border-color: $ms-color-themePrimary;
-//     color: $ms-color-white;
-
-//     // Basic Button
-//     outline: transparent;
-//     position: relative;
-//     font-family: "Segoe UI WestEuropean","Segoe UI",-apple-system,BlinkMacSystemFont,Roboto,"Helvetica Neue",sans-serif;
-//     -webkit-font-smoothing: antialiased;
-//     font-size: $ms-font-size-m;
-//     font-weight: $ms-font-weight-regular;
-//     border-width: 0;
-//     text-align: center;
-//     cursor: pointer;
-//     display: inline-block;
-//     padding: 0 16px;
-
-//     .label {
-//       font-weight: $ms-font-weight-semibold;
-//       font-size: $ms-font-size-m;
-//       height: 32px;
-//       line-height: 32px;
-//       margin: 0 4px;
-//       vertical-align: top;
-//       display: inline-block;
-//     }
-
-//     .esHeader {
-//       font-size: 20px;
-//       text-transform: uppercase;
-//       font-weight: 600;
-//       padding-bottom: 5px;
-//     }
-//     .esHeader .esHeaderIcon {
-//       background: #f68d2e;
-//       color: #fff;
-//       padding: 7px;
-//       vertical-align: top;
-//       margin-right: 10px;
-//     }
-//   }
-
-
-
-//   // .projectSiteRequestSection .ms-TextField-wrapper.wrapper-190 {
-//   //     display: flex;
-//   // }
-
-//   .projectSiteRequestSection .ms-TextField {
-//       display: flex;
-//   }
-
-//   .projectSiteRequestSection .ms-Dropdown-container.root {
-//       display: flex;
-//   }
-  
-//   .projectSiteRequestSection .errorMessage {
-//       padding-left: 5px;
-//   }
-
-//   .projectSiteRequestSection .ms-sm12.ms-md12.ms-lg12 {
-//       margin-bottom: 5px;
-//   }
-
-//   .projectSiteRequestSection div#people {
-//       display: flex;
-//   }
-
-//   .projectSiteRequestSection .ms-BasePicker.ms-PeoplePicker {
-//       min-width: 365px;
-//       margin-left: 5px;
-//   }
-
-//   .projectSiteRequestSection .ms-Dropdown {
-//       min-width: 365px;
-//       margin-left: 5px;
-//   }
-
-//   .projectSiteRequestSection .ms-Label {
-//       min-width: 180px;
-//   }
-
-//   .projectSiteRequestSection .ms-TextField-fieldGroup {
-//       min-width: 365px;  
-//       margin-left: 5px;
-//   }
-
-
-
-// }
-
-// }
