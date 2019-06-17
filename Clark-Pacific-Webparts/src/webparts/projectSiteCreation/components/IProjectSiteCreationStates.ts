@@ -6,20 +6,15 @@ export interface IProjectSiteCreationStates {
   productTypeErrorMessage:string;
   buildingTypesErrorMessage:string;
   contractValueErrorMessage:string;
-  jurisdictionErrorMessage:string;
   deliveryModeErrorMessage:string;
   clientErrorMessage:string;
-  spmErrorMessage:string;
-  pmErrorMessage:string;
-  apmErrorMessage:string;
-  peErrorMessage:string;
-  membersErrorMessage:string;
+  
   jurisdictionUserEmail:string;
   spmUserEmail:string;
   pmUserEmail:string;
   apmUserEmail:string;
   peUserEmail:string;
-  memberUsersEmailArray:{}[];
+
   jobIdErrorMessage:string;
   siteType:string;
   siteTitle:string;
@@ -32,8 +27,10 @@ export interface IProjectSiteCreationStates {
   pmUserId:Number;
   apmUserId:Number;
   peUserId:Number;
-  jobId:Number;
+  jobId:string;
   memberUsersIdArray:{}[];
+  memberUsersEmailArray:string[];
+
  
   selectedSiteType:string;
   selectedProductType:string;
@@ -45,9 +42,6 @@ export interface IProjectSiteCreationStates {
   buildingType:IDropDown[];
   contractValue:IDropDown[];
   deliveryMode:IDropDown[];
-  
-  resetProjectType:string;
-
  }
  
  export interface ISPListColumn {
@@ -63,3 +57,9 @@ export interface IProjectSiteCreationStates {
      key:string;
      text:string;
 }
+
+export interface IUserEmails{
+    userId:number;
+    email:string;
+}
+

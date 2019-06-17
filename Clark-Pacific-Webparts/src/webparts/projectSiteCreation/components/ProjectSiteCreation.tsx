@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { IProjectSiteCreationProps } from './IProjectSiteCreationProps';
 import { IProjectSiteCreationStates, IDropDown, ISPListColumn } from './IProjectSiteCreationStates';
-import { escape } from '@microsoft/sp-lodash-subset';
+import { escape, keys } from '@microsoft/sp-lodash-subset';
 import './ProjectSiteCreation.module.scss';
 import { SPHttpClient } from '@microsoft/sp-http';
 import { Dropdown, DropdownMenuItemType, IDropdownOption } from 'office-ui-fabric-react/lib/Dropdown';
@@ -12,11 +12,11 @@ import { Icon } from 'office-ui-fabric-react/lib/Icon';
 import { default as pnp, ItemAddResult, Web, List, Item } from "sp-pnp-js";
 import { PeoplePicker, PrincipalType } from "@pnp/spfx-controls-react/lib/PeoplePicker";
 import * as jquery from 'jquery';
-import { string } from 'prop-types';
+import { string, any, array } from 'prop-types';
 
 export default class ProjectSiteCreation extends React.Component<IProjectSiteCreationProps, IProjectSiteCreationStates> {
   
-
+  
   public deliveryModeArray: any;
   constructor(props) {
     super(props);
@@ -27,35 +27,29 @@ export default class ProjectSiteCreation extends React.Component<IProjectSiteCre
       pmUserEmail: '',
       apmUserEmail: '',
       peUserEmail: '',
-      memberUsersEmailArray: null,
+      memberUsersEmailArray: [],
       siteTypeErrorMessage: '',
       siteTitleErrorMessage: '',
       sitURLErrorMessage: "",
       productTypeErrorMessage: '',
       buildingTypesErrorMessage: '',
       contractValueErrorMessage: '',
-      jurisdictionErrorMessage: '',
       deliveryModeErrorMessage: '',
       clientErrorMessage: '',
-      spmErrorMessage: '',
-      pmErrorMessage: '',
-      apmErrorMessage: '',
-      peErrorMessage: '',
-      membersErrorMessage: '',
       jurisdictionUserId: null,
       spmUserId: null,
       pmUserId: null,
       apmUserId: null,
       peUserId: null,
       memberUsersIdArray: null,
-      selectedSiteType: '',
-      selectedProductType: '',
-      selectedBuildingType: '',
-      selectedContractValue: '',
-      selectedDeliveryMethodValue: '',
+      selectedSiteType: null,
+      selectedProductType: null,
+      selectedBuildingType: null,
+      selectedContractValue: null,
+      selectedDeliveryMethodValue: null,
       jobIdErrorMessage: '',
 
-      jobId: undefined,
+      jobId: '',
       siteURL:'',
       siteType:'',
       siteTitle:'',
@@ -64,11 +58,10 @@ export default class ProjectSiteCreation extends React.Component<IProjectSiteCre
       projectType: [],
       buildingType: [],
       contractValue: [],
-      deliveryMode: [],
-
-      resetProjectType:"- Select -"
+      deliveryMode: []
     };
 
+    //this._onChoiceSiteTypeChange = this._onChoiceSiteTypeChange.bind(this);
     this._getErrorMessage = this._getErrorMessage.bind(this);
     this.changeValue = this.changeValue.bind(this);
     //this._submitRequest=this._submitRequest.bind(this);
@@ -159,6 +152,7 @@ export default class ProjectSiteCreation extends React.Component<IProjectSiteCre
     this.BindDropDowns();
   }
 
+
   //Get Product type
   private _getListProjectProductTypePnp(): Promise<ISPListColumn[]> {
     return pnp.sp.web.lists
@@ -219,10 +213,8 @@ export default class ProjectSiteCreation extends React.Component<IProjectSiteCre
       });
   }
 
-  //this is declared for reseting peoplepickers 
+  //this is declared for clearing values from all peoplepickers 
   public myPicker: PeoplePicker;
-
-  
 
   //Add Request / Item to Projects
   public AddItem(): any {
@@ -232,7 +224,6 @@ export default class ProjectSiteCreation extends React.Component<IProjectSiteCre
     let siteTitle = document.getElementById('txtSiteTitle')["value"];
     let siteUrl = document.getElementById('txtSiteURL')["value"];
     let client = document.getElementById('txtClient')["value"];
-     
 
     web.lists.getByTitle(this.props.listName).items.add({
 
@@ -260,10 +251,7 @@ export default class ProjectSiteCreation extends React.Component<IProjectSiteCre
       }
     }).then((iar: ItemAddResult) => {
       alert('New Project Site creation request has been submitted successfully !!');
-      //this.ClearControlValue();
-      this.myPicker.setState ({
-        selectedPersons: []
-      });
+      this.ClearControlValue();
     });
 
   }
@@ -278,11 +266,14 @@ export default class ProjectSiteCreation extends React.Component<IProjectSiteCre
 
   //get peoplepicker by userid
   public _getPeoplePickerJurisdictionItems(items: any[]) {
+    debugger;
     console.log('Items:', items);
     if (items.length > 0) {
       var userEmail = items[0].secondaryText;
+      
       this.getUserId(userEmail).then((userId) => {
         this.setState({
+          jurisdictionUserEmail: userEmail,
           jurisdictionUserId: userId
         });
       });
@@ -295,6 +286,7 @@ export default class ProjectSiteCreation extends React.Component<IProjectSiteCre
       var userEmail = items[0].secondaryText;
       this.getUserId(userEmail).then((spmId) => {
         this.setState({
+          spmUserEmail: userEmail,
           spmUserId: spmId
         });
       });
@@ -307,6 +299,7 @@ export default class ProjectSiteCreation extends React.Component<IProjectSiteCre
       var userEmail = items[0].secondaryText;
       this.getUserId(userEmail).then((userId) => {
         this.setState({
+          pmUserEmail: userEmail,
           pmUserId: userId
         });
       });
@@ -319,6 +312,7 @@ export default class ProjectSiteCreation extends React.Component<IProjectSiteCre
       var userEmail = items[0].secondaryText;
       this.getUserId(userEmail).then((userId) => {
         this.setState({
+          apmUserEmail:userEmail,
           apmUserId: userId
         });
       });
@@ -331,6 +325,7 @@ export default class ProjectSiteCreation extends React.Component<IProjectSiteCre
       var userEmail = items[0].secondaryText;
       this.getUserId(userEmail).then((userId) => {
         this.setState({
+          peUserEmail: userEmail,
           peUserId: userId
         });
       });
@@ -339,24 +334,26 @@ export default class ProjectSiteCreation extends React.Component<IProjectSiteCre
 
   public _getPeoplePickerMemberItems(items: any[]) {
     console.log('Items:', items);
-    var memberUsersIDCollection = new Array();
-    if (items.length > 0) {
-      for (let index = 0; index < items.length; index++) {
-        var userEmail = items[index];
-        if (userEmail != null && userEmail.secondaryText != null) {
-          this.getUserId(userEmail.secondaryText).then((userId) => {
-            if (memberUsersIDCollection.indexOf(userId) === -1)
-              memberUsersIDCollection.push(userId);
-            this.setState({
-              memberUsersIdArray: memberUsersIDCollection
-            });
-          });
-        }
+    let emailArrayColl = new Array();
+    let userIdColl = new Array();
+    if(items.length > 0){
+      for (let item in items)
+      {   
+        emailArrayColl.push(items[item].secondaryText);
+        userIdColl.push(items[item].id);
       }
     }
+
+    console.log('Emails : ' + emailArrayColl);
+    console.log('User IDs : ' + userIdColl);
+
+    this.setState({
+        memberUsersEmailArray: emailArrayColl,
+        memberUsersIdArray:userIdColl
+    });
   }
 
-  public _onChoiceSiteTypeChange(item) {
+  private _onChoiceSiteTypeChange(item) {
     this.setState({
       selectedSiteType: item.text,
     });
@@ -387,142 +384,73 @@ export default class ProjectSiteCreation extends React.Component<IProjectSiteCre
   }
 
   public _validateTextField(controlID: string): boolean {
-    return (document.getElementById(`${controlID}`)["value"].length > 0 )?true:false;
+    return ((document.getElementById(`${controlID}`)["value"].length > 0) && (document.getElementById(`${controlID}`).parentElement.classList.toString().indexOf("invalid") == -1))?true:false;
   }
 
   public _validateDDField(controlID: string): boolean {
-    return (controlID != "")?(controlID != "- Select -")?true:false : false;
+    return (controlID != "") ? (controlID != "- Select -") ? (controlID != null)?true:false : false : false;
   }
 
-  private _submitRequest = (): void => {
-
-    debugger;
-
+  private _validateAllFields(): boolean{
     let _txtJobId : boolean = this._validateTextField('txtJobId');
-    let _txtSiteTitle : boolean = this._validateTextField('txtJobId');
-    let _txtSiteURL : boolean = this._validateTextField('txtSiteURL');
-    //let _ddlSiteType : boolean = this._validateDDField('ddlSiteType');
     let _ddlSiteType : boolean = this._validateDDField(this.state.selectedSiteType);
+    let _txtSiteTitle : boolean = this._validateTextField('txtSiteTitle');
+    let _txtSiteURL : boolean = this._validateTextField('txtSiteURL');
     let _ddProductType : boolean = this._validateDDField(this.state.selectedProductType);
     let _ddlBuildingType : boolean = this._validateDDField(this.state.selectedBuildingType);
     let _ddlContractValue : boolean = this._validateDDField(this.state.selectedContractValue);
     let _ddlDeliveryMethod : boolean = this._validateDDField(this.state.selectedDeliveryMethodValue);
+    let _txtClient : boolean = this._validateTextField('txtClient');
+
+    if(_txtJobId){      this.setState({ jobIdErrorMessage: "" });    } 
+    else { this.setState({ jobIdErrorMessage: "You can't leave this blank" }); }
+
+    if(_ddlSiteType){      this.setState({ siteTypeErrorMessage: "" });    } 
+    else { this.setState({ siteTypeErrorMessage: "You can't leave this blank or fill with 'Select'" }); }
+
+    if(_txtSiteTitle){      this.setState({ siteTitleErrorMessage: "" });    } 
+    else { this.setState({ siteTitleErrorMessage: "You can't leave this blank" }); }
+
+    if(_txtSiteURL){      
+        let url = document.getElementById('txtSiteURL')["value"];
+        if (this._validateUrl(url)) {  this.setState({ sitURLErrorMessage: "" });    } 
+        else{ this.setState({ sitURLErrorMessage: "Invalid Url : " + url }); } }
+    else {this.setState({ sitURLErrorMessage: "You can't leave this blank" }); }
+
+    if(_ddProductType){      this.setState({ productTypeErrorMessage: "" });    } 
+    else { this.setState({ productTypeErrorMessage: "You can't leave this blank or fill with 'Select'" }); }
+
+    if(_ddlBuildingType){      this.setState({ buildingTypesErrorMessage: "" });    } 
+    else { this.setState({ buildingTypesErrorMessage: "You can't leave this blank or fill with 'Select'" }); }
+
+    if(_ddlContractValue){      this.setState({ contractValueErrorMessage: "" });    } 
+    else { this.setState({ contractValueErrorMessage: "You can't leave this blank or fill with 'Select'" }); }
+
+    if(_ddlDeliveryMethod){      this.setState({ deliveryModeErrorMessage: "" });    } 
+    else { this.setState({ deliveryModeErrorMessage: "You can't leave this blank or fill with 'Select'" }); }
+
+    if(_txtClient){      this.setState({ clientErrorMessage: "" });    } 
+    else { this.setState({ clientErrorMessage: "You can't leave this blank" }); }
 
 
-  //1
-    if (document.getElementById('txtJobId')["value"].length > 0) {
-      this.setState({ jobIdErrorMessage: "" });
-  //2
-      if(_ddlSiteType) {
-        this.setState({  siteTypeErrorMessage:"" });
-  //3
-       if (document.getElementById('txtSiteTitle')["value"].length > 0) {
-        this.setState({ siteTitleErrorMessage : "" });
-  //4
-          if (document.getElementById('txtSiteURL')["value"].length > 0) {
-            this.setState({ sitURLErrorMessage: "" });
-  //5            
-            if(_ddProductType) {
-              this.setState({  productTypeErrorMessage:"" });
-  //6
-              if(_ddlBuildingType) {
-                this.setState({  buildingTypesErrorMessage:"" });
-  //7
-                if(_ddlContractValue) {
-                  this.setState({  contractValueErrorMessage:"" });
-  //8
-                  if (_ddlDeliveryMethod) {
-                    this.setState({ deliveryModeErrorMessage: "" });
-  //9
-                    if(document.getElementById('txtClient')["value"].length > 0) {
-                      this.setState({  clientErrorMessage:"" });
-  //10
-                          if (document.getElementById('txtJobId').parentElement.classList.toString().indexOf("invalid") == -1 && 
-                              document.getElementById('txtSiteTitle').parentElement.classList.toString().indexOf("invalid") == -1 &&
-                              document.getElementById('txtSiteURL').parentElement.classList.toString().indexOf("invalid") == -1)
-                              {
-                                let url = document.getElementById('txtSiteURL')["value"];
-                                if (this._validateUrl(url)) {
-                                  // Add Project Request
-                                  this.AddItem();
-                                }
-                                else {
-                                  this.setState({ sitURLErrorMessage: "Invalid Url : " + url });
-                                }
-//10 end
-                              }
-//9 end
-                      } 
-                      else {
-                          this.setState({ clientErrorMessage: "You can't leave this blank" });
-                      }
-//8 end            
-                    }
-                    else {
-                      this.setState({ deliveryModeErrorMessage: "You can't leave this blank or fill with 'Select'" });
-                    }
-//7 end        
-                  }
-                  else {
-                    this.setState({ contractValueErrorMessage: "You can't leave this blank or fill with 'Select'" });
-                  }
-//6 end
-                }
-                else {
-                  this.setState({ buildingTypesErrorMessage: "You can't leave this blank or fill with 'Select'" });
-                }
-//5 end
-              }
-              else {
-                this.setState({ productTypeErrorMessage: "You can't leave this blank or fill with 'Select'" });
-              }
-//4 end
-            }
-            else {
-              this.setState({ sitURLErrorMessage: "You can't leave this blank" });
-            }
-//3 end
-          }
-          else {
-            this.setState({ siteTitleErrorMessage: "You can't leave this blank" });
-          }
-//2 end
-        }
-        else {
-          this.setState({ siteTypeErrorMessage: "You can't leave this blank or fill with 'Select'" });
-        }
-//1 end
-      }
-      else {
-        this.setState({ jobIdErrorMessage: "You can't leave this blank" });
-      }
-
-
-
-
-
+    return (_txtJobId && _txtSiteTitle && _txtSiteURL &&
+            _ddlSiteType && _ddProductType && _ddlBuildingType &&
+            _ddlContractValue && _ddlDeliveryMethod && _txtClient) ? true : false;
 
   }
 
-  private _cancelRequest = (e) => {
-    e.preventDefault();
+  private _submitRequest = (): void => {
     debugger;
-    this.setState({
-      jobId:undefined,
-      siteTitle:'',
-      siteURL:'',
-      client:'',
-      resetProjectType:"- Select -"
-    });
-
-    this.myPicker.setState ({
-      selectedPersons: []
-    });
-
-    //this.ClearControlValue();
-   
+    if(this._validateAllFields()){
+      // Add Project Request
+      this.AddItem();
+    }
   }
 
+  private _cancelRequest = () => {
+    debugger;
+    this.ClearControlValue();
+  }
   
   //Validate Url RegX
   private _validateUrl = (url) => {
@@ -536,19 +464,40 @@ export default class ProjectSiteCreation extends React.Component<IProjectSiteCre
 
   //still not in use
   private ClearControlValue() {
-  
-    
-    // document.getElementById('txtJobId')["value"] = "";
-    // document.getElementById('txtSiteTitle')["value"] = "";
-    // document.getElementById('txtSiteURL')["value"] = "";
-    // document.getElementById('txtclient')["value"] = "";
-    // this.setState({
-    //   jobIdErrorMessage: "",
-    //   siteTitleErrorMessage: "",
-    //   sitURLErrorMessage: "",
-    //   clientErrorMessage: ""
-    // });
 
+    this.setState({
+      jobId:'',
+      siteTitle:'',
+      siteURL:'',
+      client:'',
+      selectedSiteType: null,
+      selectedBuildingType:null,
+      selectedContractValue:null,
+      selectedDeliveryMethodValue:null,
+      selectedProductType:null,
+      contractValue:[],
+      productType:[],
+      projectType:[],
+      buildingType:[],
+      jurisdictionUserId:null,
+      jurisdictionUserEmail:'',
+      spmUserId:null,
+      spmUserEmail:'',
+      pmUserId:null,
+      pmUserEmail:'',
+      apmUserId:null,
+      apmUserEmail:'',
+      peUserId:null,
+      peUserEmail:'',
+      memberUsersEmailArray:[],
+      memberUsersIdArray:[]
+
+
+
+      
+    });
+
+    this.BindDropDowns();
   }
 
   // This method is used as property method for office-ui-fabric component TextField
@@ -574,13 +523,7 @@ export default class ProjectSiteCreation extends React.Component<IProjectSiteCre
     }
   }
 
-  private _assignJobID=(newValue: any) => {
-      this.setState({
-        jobId:newValue
-      });
-  }
-
-
+ 
   //this method is used to set default value to text control 
   private _assignDefaultValue=(event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>, newValue?: any) => {
     let e:any= event.target;
@@ -606,26 +549,20 @@ export default class ProjectSiteCreation extends React.Component<IProjectSiteCre
       default:
         return null;
     }
-
-    // if(id==="txtJobId"){
-    //   this.setState({
-    //     jobId:newValue
-    //   })
-    // }else if(id==="txtSiteTitle"){
-    //   this.setState({
-    //     siteTitle:newValue
-    //   })
-    // }
-
-      
+        
   }
 
   public render(): React.ReactElement<IProjectSiteCreationProps> {
+    debugger;
     return (
       <div className="projectSiteRequestSection">
+        <div className="ms-sm12 ms-md12 ms-lg12 siteTypeSection">
+          <div className="esHeader"><i className="ms-Icon ms-Icon--Link esHeaderIcon" aria-hidden="true"></i>{this.props.title}</div>
+        </div>
         <div className="ms-sm12 ms-md12 ms-lg12 siteURLSection">
-          <TextField type="number" label="Job ID" id="txtJobId" 
-              required={true} onGetErrorMessage={this._getErrorMessage} onKeyUp={this.changeValue}
+          <TextField label="Job ID" id="txtJobId" 
+              required={true} onGetErrorMessage={this._getErrorMessage} 
+              //onKeyUp={this.changeValue}
               errorMessage={this.state.jobIdErrorMessage} 
               validateOnLoad={false}
               name="txtJobId"  
@@ -640,10 +577,11 @@ export default class ProjectSiteCreation extends React.Component<IProjectSiteCre
           <Dropdown
             label="Site Type"
             id="ddlSiteType"
-            defaultSelectedKey={this.state.resetProjectType}
+            required={true}
+            defaultSelectedKey={this.state.selectedSiteType}
             options={this.state.projectType}
             onChanged={this._onChoiceSiteTypeChange.bind(this)}
-            defaultValue={String(this.state.projectType)}
+            //defaultValue={String(this.state.projectType)}
             errorMessage={this.state.siteTypeErrorMessage}
           />
         </div>
@@ -653,9 +591,11 @@ export default class ProjectSiteCreation extends React.Component<IProjectSiteCre
               required={true} onGetErrorMessage={this._getErrorMessage} 
               errorMessage={this.state.siteTitleErrorMessage} 
               validateOnLoad={false} 
+              name="txtSiteTitle"
               onChange={this._assignDefaultValue}
               value={String(this.state.siteTitle)}
               />
+          
         </div>
 
         <div className="ms-sm12 ms-md12 ms-lg12 siteURLSection">
@@ -672,9 +612,10 @@ export default class ProjectSiteCreation extends React.Component<IProjectSiteCre
           <Dropdown
             label="Primary Product Type"
             id="ddlProductType"
+            defaultSelectedKey={this.state.selectedProductType}
             options={this.state.productType}
             onChanged={this._onChoiceProductTypeChange.bind(this)}
-            defaultValue={String(this.state.productType)}
+            //defaultValue={String(this.state.productType)}
             errorMessage={this.state.productTypeErrorMessage}
           />
         </div>
@@ -683,9 +624,10 @@ export default class ProjectSiteCreation extends React.Component<IProjectSiteCre
           <Dropdown
             label="Building Types"
             id="ddlBuildingTypes"
+            defaultSelectedKey={this.state.selectedBuildingType}
             options={this.state.buildingType}
             onChanged={this._onChoiceBuildingTypeChange.bind(this)}
-            defaultValue={String(this.state.buildingType)}
+            //defaultValue={String(this.state.buildingType)}
             errorMessage={this.state.buildingTypesErrorMessage}
           />
         </div>
@@ -694,35 +636,40 @@ export default class ProjectSiteCreation extends React.Component<IProjectSiteCre
           <Dropdown
             label="Precast Contract Value"
             id="ContractValue"
+            defaultSelectedKey={this.state.selectedContractValue}
             options={this.state.contractValue}
             onChanged={this._onChoiceContractValueChange.bind(this)}
-            defaultValue={String(this.state.contractValue)}
+            //defaultValue={String(this.state.contractValue)}
             errorMessage={this.state.contractValueErrorMessage}
           />
         </div>
 
         <div className="ms-sm12 ms-md12 ms-lg12 jurisdictionSection">
           <PeoplePicker
+            
             context={this.props.context}
             titleText="Jurisdiction"
-            //id="pplpkrJurisdiction"
             personSelectionLimit={1}
-            //groupName={} // Leave this blank in case you want to filter from all users
             showtooltip={true}
             isRequired={true}
-            selectedItems={this._getPeoplePickerJurisdictionItems.bind(this)}
+            defaultSelectedUsers={(this.state.jurisdictionUserEmail) ? [this.state.jurisdictionUserEmail] : []}
+            selectedItems={ this._getPeoplePickerJurisdictionItems.bind(this)}
             showHiddenInUI={false}
             principalTypes={[PrincipalType.User]}
-            resolveDelay={1000} />
+            resolveDelay={1000} 
+            
+            />
         </div>
 
         <div className="ms-sm12 ms-md12 ms-lg12 deliveryMethodSection">
           <Dropdown
             label="Delivery Method"
             id="txtDeliveryMethod"
+            defaultSelectedKey={this.state.selectedDeliveryMethodValue}
+            required={true}
             options={this.state.deliveryMode}
             onChanged={this._onChoiceDeliveryMethodChange.bind(this)}
-            defaultValue={String(this.state.deliveryMode)}
+            //defaultValue={String(this.state.deliveryMode)}
             errorMessage={this.state.deliveryModeErrorMessage}
           />
         </div>
@@ -741,86 +688,87 @@ export default class ProjectSiteCreation extends React.Component<IProjectSiteCre
 
           <PeoplePicker
             context={this.props.context}
-            titleText="SPM"
-            // id="pplpkrSPM"
+            titleText="Senior Project Manager"
             personSelectionLimit={1}
-            //groupName={} // Leave this blank in case you want to filter from all users
             showtooltip={true}
             isRequired={true}
+            defaultSelectedUsers={(this.state.spmUserEmail) ? [this.state.spmUserEmail] : []}
             selectedItems={this._getPeoplePickerSPMItems.bind(this)}
             showHiddenInUI={false}
             principalTypes={[PrincipalType.User]}
             resolveDelay={1000} />
+
         </div>
 
         <div className="ms-sm12 ms-md12 ms-lg12 pmSection">
 
           <PeoplePicker
             context={this.props.context}
-            titleText="PM"
-            // id="pplpkrPM"
+            titleText="Project Manager"
             personSelectionLimit={1}
-            //groupName={} // Leave this blank in case you want to filter from all users
             showtooltip={true}
             isRequired={true}
+            defaultSelectedUsers={(this.state.pmUserEmail) ? [this.state.pmUserEmail] : []}
             selectedItems={this._getPeoplePickerPMItems.bind(this)}
             showHiddenInUI={false}
             principalTypes={[PrincipalType.User]}
             resolveDelay={1000} />
+
         </div>
 
         <div className="ms-sm12 ms-md12 ms-lg12 apmSection">
 
           <PeoplePicker
             context={this.props.context}
-            titleText="APM"
-            // id="pplpkrAPM"
+            titleText="Associate Project Manager"
             personSelectionLimit={1}
-            //groupName={} // Leave this blank in case you want to filter from all users
             showtooltip={true}
             isRequired={true}
+            defaultSelectedUsers={(this.state.apmUserEmail) ? [this.state.apmUserEmail] : []}
             selectedItems={this._getPeoplePickerAPMItems.bind(this)}
             showHiddenInUI={false}
             principalTypes={[PrincipalType.User]}
             resolveDelay={1000} />
+          
         </div>
 
         <div className="ms-sm12 ms-md12 ms-lg12 peSection">
 
           <PeoplePicker
             context={this.props.context}
-            titleText="PE"
-            // id="pplpkrPE"
+            titleText="Project Engineer"
             personSelectionLimit={1}
-            //groupName={} // Leave this blank in case you want to filter from all users
             showtooltip={true}
             isRequired={true}
+            defaultSelectedUsers={(this.state.peUserEmail) ? [this.state.peUserEmail] : []}
             selectedItems={this._getPeoplePickerPEItems.bind(this)}
             showHiddenInUI={false}
             principalTypes={[PrincipalType.User]}
             resolveDelay={1000} />
+
         </div>
 
         <div className="ms-sm12 ms-md12 ms-lg12 peSection">
           <PeoplePicker
             context={this.props.context}
             titleText="Other Members"
-            // id="pplpkrOtherMembers"
             personSelectionLimit={20}
-            //groupName={} // Leave this blank in case you want to filter from all users
             showtooltip={true}
             isRequired={true}
+            ensureUser={true}
+            defaultSelectedUsers={(this.state.memberUsersEmailArray.length) ? this.state.memberUsersEmailArray : []}
             selectedItems={this._getPeoplePickerMemberItems.bind(this)}
             showHiddenInUI={false}
             principalTypes={[PrincipalType.User]}
             resolveDelay={1000} />
         </div>
-
-
+        <div className="ms-sm12 ms-md12 ms-lg12 peSection">
         <DialogFooter>
           <PrimaryButton onClick={this._submitRequest} text="Submit Request" iconProps={{ iconName: 'Accept' }} />
           <DefaultButton onClick={this._cancelRequest} text="Cancel Request" iconProps={{ iconName: 'Clear' }} />
         </DialogFooter>
+        </div>
+
       </div>
     );
   }
