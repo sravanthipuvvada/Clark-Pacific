@@ -58,11 +58,11 @@ namespace AzureFunction.CreateTeamsUsingSiteTemplate
             log.Info("Cloning EndPoints : " + endPoint);
             string contenType = "application/json";
             string responseFromServer = requestPost(token, endPoint, data, log, contenType);
-            log.Info("Response : "+responseFromServer);
-            var response = JsonConvert.DeserializeObject<GraphGroup>(responseFromServer!=null ? responseFromServer : "");            
-           // log.Info("Cloning DeserializeObject Response : " + response);
+            log.Info("Response : " + responseFromServer);
+            var response = JsonConvert.DeserializeObject<GraphGroup>(responseFromServer != null ? responseFromServer : "");
+            // log.Info("Cloning DeserializeObject Response : " + response);
             createdTeamSiteUrl = "https://graph.microsoft.com/v1.0/groups/" + response;
-            return response!=null ? response.ToString() : "";
+            return response != null ? response.ToString() : "";
         }
         public static string getUser(string token, string userPrincipalName, TraceWriter log)
         {
@@ -76,7 +76,7 @@ namespace AzureFunction.CreateTeamsUsingSiteTemplate
         public static List<string> getGroupUserID(string token, string groupID, TraceWriter log, string userType)
         {
             List<string> ownerUserIDArray = new List<string>();
-            string endPoint = "https://graph.microsoft.com/v1.0/groups/"+ groupID + "/"+ userType;
+            string endPoint = "https://graph.microsoft.com/v1.0/groups/" + groupID + "/" + userType;
             string responseFromServer = requestGet(endPoint, token, log);
             JavaScriptSerializer serializer = new JavaScriptSerializer();
             dynamic item = serializer.Deserialize<object>(responseFromServer);
@@ -84,7 +84,7 @@ namespace AzureFunction.CreateTeamsUsingSiteTemplate
             {
                 foreach (var result in item["value"])
                 {
-                    if(result!=null && result["id"]!=null)
+                    if (result != null && result["id"] != null)
                     {
                         string id = (string)result["id"];
                         ownerUserIDArray.Add(id);
@@ -111,12 +111,12 @@ namespace AzureFunction.CreateTeamsUsingSiteTemplate
         {
             string endPoint = "https://graph.microsoft.com/v1.0/groups/";
             string contenType = "application/json";
-            string responseFromServer = requestPost(token, endPoint, data,log, contenType);
+            string responseFromServer = requestPost(token, endPoint, data, log, contenType);
             GraphGroup group = JsonConvert.DeserializeObject<GraphGroup>(responseFromServer);
 
             return group.id;
         }
-       
+
         public static string getTeamsIdByMailNickNameName(string token, string teamsDisplayName, string data, TraceWriter log)
         {
             var groupId = "";
@@ -127,7 +127,7 @@ namespace AzureFunction.CreateTeamsUsingSiteTemplate
                 log.Info("Checking if Teams : " + teamsDisplayName + " already exists or not.");
                 string contenType = "application/json";
                 string responseFromServer = requestGet(endPoint, token, log);
-                log.Info("Response from GET Request : " + responseFromServer != null ? responseFromServer : "");               
+                log.Info("Response from GET Request : " + responseFromServer != null ? responseFromServer : "");
                 if (responseFromServer.IndexOf("\"id\":") > 0)
                 {
                     JavaScriptSerializer serializer = new JavaScriptSerializer();
@@ -141,14 +141,14 @@ namespace AzureFunction.CreateTeamsUsingSiteTemplate
         public static string FormatUserIdFromUserEmail(string token, string users, TraceWriter log)
         {
             string ownerUserString = "";
-            if ((token!=null && token !="") && (users!=null && users!=""))
+            if ((token != null && token != "") && (users != null && users != ""))
             {
                 string[] owners = users.Split(';');
                 foreach (string useremail in owners)
                 {
                     if (useremail != null && !string.IsNullOrWhiteSpace(useremail))
                     {
-                      var userId = Graph.getUser(token, useremail, log);
+                        var userId = Graph.getUser(token, useremail, log);
                         if (userId != null && !string.IsNullOrWhiteSpace(userId))
                         {
                             log.Info("userId: " + userId);
@@ -160,10 +160,10 @@ namespace AzureFunction.CreateTeamsUsingSiteTemplate
             }
             if (ownerUserString.Length > 0)
                 ownerUserString = ownerUserString.Substring(0, ownerUserString.Length - 1);
-          return ownerUserString;
+            return ownerUserString;
         }
-                
-        public static bool addUsersToTeams(string token, string groupId, string userIdCollection, TraceWriter log, string userType)
+
+        public static bool addFormUsersToTeams(string token, string groupId, string userIdCollection, TraceWriter log, string userType)
         {
             bool hasUserAdded = false;
             if (userIdCollection != null && userIdCollection != "")
@@ -190,15 +190,38 @@ namespace AzureFunction.CreateTeamsUsingSiteTemplate
             }
             return hasUserAdded;
         }
+
+        public static bool addDefaultTeamsUserToNewTeams(string token, string defaultTeamsGroupId, string newTeamsGroupId, TraceWriter log, string userType)
+        {
+            bool hasUserAdded = false;
+            List<string> defaultOwnersIDArray = Graph.getGroupUserID(token, defaultTeamsGroupId, log, userType);
+            List<string> newOwnersIDArray = Graph.getGroupUserID(token, newTeamsGroupId, log, userType);
+
+            foreach (string userId in defaultOwnersIDArray.ToArray())
+            {
+                if (userId != null && !string.IsNullOrWhiteSpace(userId))
+                {
+                    if (newOwnersIDArray.IndexOf(userId) < 0)
+                    {
+                        hasUserAdded = Graph.addUsersToUnifiedGroup(token, newTeamsGroupId, userId, log, userType);
+                        newOwnersIDArray = Graph.getGroupUserID(token, newTeamsGroupId, log, userType);
+                    }                    
+                }
+            }
+            return hasUserAdded;
+        }
         public static bool addUsersToUnifiedGroup(string token, string groupId, string userId, TraceWriter log, string userType)
         {
             bool ownerAdded = false;
 
-            string endPoint = "https://graph.microsoft.com/v1.0/groups/" + groupId + "/"+ userType +"/$ref";
+            string endPoint = "https://graph.microsoft.com/v1.0/groups/" + groupId + "/" + userType + "/$ref";
 
             string data = "{ '@odata.id': 'https://graph.microsoft.com/v1.0/users/" + userId + "' }";
+            log.Info("Adding User To Unified Group: " + endPoint + "-" + data);
             string contenType = "application/json";
+            log.Info("Calling POST to add users to Unified Group: " + endPoint + "-" + data);
             string responseFromServer = requestPost(token, endPoint, data, log, contenType);
+            log.Info("Added users to Unified Group: " + endPoint + "-" + data);
             ownerAdded = true;
 
             return ownerAdded;
@@ -296,115 +319,140 @@ namespace AzureFunction.CreateTeamsUsingSiteTemplate
 
         private static string requestGet(string endPoint, string token, TraceWriter log, string postData = null, string contentType = null)
         {
-            log.Info("Creating GET request.");
-            // Create a request for the URL.   
-            WebRequest request = WebRequest.Create(endPoint);
-            log.Info("Created GET request.");
-            // If required by the server, set the credentials.  
-            //request.Credentials = CredentialCache.DefaultCredentials;
-            request.Headers.Add("Authorization", "Bearer " + token);
-            // Get the response.  
-            log.Info("Creating Web response.");
-            WebResponse response = request.GetResponse();
-            log.Info("Created Web response.");
-            // Display the status.  
-            Console.WriteLine(((HttpWebResponse)response).StatusDescription);
-            // Get the stream containing content returned by the server.  
-            Stream dataStream = response.GetResponseStream();
-            // Open the stream using a StreamReader for easy access.  
-            StreamReader reader = new StreamReader(dataStream);
-            // Read the content.  
-            string responseFromServer = reader.ReadToEnd();
-            // Display the content.  
-            Console.WriteLine(responseFromServer);
-            // Clean up the streams and the response.  
-            reader.Close();
-            response.Close();
-            log.Info("GET response : "+ responseFromServer);
+            string responseFromServer = string.Empty;
+            try
+            {
+                log.Info("Creating GET request.");
+                // Create a request for the URL.   
+                WebRequest request = WebRequest.Create(endPoint);
+                log.Info("Created GET request.");
+                // If required by the server, set the credentials.  
+                //request.Credentials = CredentialCache.DefaultCredentials;
+                request.Headers.Add("Authorization", "Bearer " + token);
+                // Get the response.  
+                log.Info("Creating Web response.");
+                WebResponse response = request.GetResponse();
+                log.Info("Created Web response.");
+                // Display the status.  
+                Console.WriteLine(((HttpWebResponse)response).StatusDescription);
+                // Get the stream containing content returned by the server.  
+                Stream dataStream = response.GetResponseStream();
+                // Open the stream using a StreamReader for easy access.  
+                StreamReader reader = new StreamReader(dataStream);
+                // Read the content.  
+                responseFromServer = reader.ReadToEnd();
+                // Display the content.  
+                Console.WriteLine(responseFromServer);
+                // Clean up the streams and the response.  
+                reader.Close();
+                response.Close();
+                log.Info("GET response : " + responseFromServer);
+            }
+            catch (Exception ex)
+            {
+                log.Info("Exception for EndPoints : " + endPoint + "-" + ex.Message != null ? ex.Message : "-" + ex.StackTrace != null ? ex.StackTrace : "");
+            }
             return responseFromServer;
         }
 
         private static string requestPost(string token, string endPoint, string postData, TraceWriter log, string contentType = null)
         {
-            log.Info("Creating request...");
-            // Create a request using a URL that can receive a post.   
-            WebRequest request = WebRequest.Create(endPoint);
-            log.Info("Created request.");
-            // Set the Method property of the request to POST.  
-            request.Method = "POST";
-            // Create POST data and convert it to a byte array.  
-            byte[] byteArray = Encoding.UTF8.GetBytes(postData);
-            request.Headers.Add("Authorization", "Bearer " + token);
-            if (string.IsNullOrEmpty(contentType) == false)
+            string responseFromServer = string.Empty;
+            try
             {
-                // Set the ContentType property of the WebRequest.  
-                request.ContentType = contentType;
-            }
-            // Set the ContentLength property of the WebRequest.  
-            request.ContentLength = byteArray.Length;
-            // Get the request stream.  
-            Stream dataStream = request.GetRequestStream();
-            // Write the data to the request stream.  
-            dataStream.Write(byteArray, 0, byteArray.Length);
-            // Close the Stream object.  
-            dataStream.Close();
-            // Get the response.  
-            WebResponse response = request.GetResponse();
-            // Display the status.  
-            log.Info("Calling Web Response - GetResponse method");
-            Console.WriteLine(((HttpWebResponse)response).StatusDescription);
-            log.Info("Called Web Response - "+ ((HttpWebResponse)response).StatusDescription);
-            // Get the stream containing content returned by the server.  
-            dataStream = response.GetResponseStream();
-            // Open the stream using a StreamReader for easy access.  
-            StreamReader reader = new StreamReader(dataStream);
-            // Read the content.  
-            string responseFromServer = reader.ReadToEnd();
+                log.Info("Creating POST request...");
+                // Create a request using a URL that can receive a post.   
+                WebRequest request = WebRequest.Create(endPoint);
+                log.Info("Created POST request.");
+                // Set the Method property of the request to POST.  
+                request.Method = "POST";
+                // Create POST data and convert it to a byte array.  
+                byte[] byteArray = Encoding.UTF8.GetBytes(postData);
+                request.Headers.Add("Authorization", "Bearer " + token);
+                if (string.IsNullOrEmpty(contentType) == false)
+                {
+                    // Set the ContentType property of the WebRequest.  
+                    request.ContentType = contentType;
+                }
+                // Set the ContentLength property of the WebRequest.  
+                request.ContentLength = byteArray.Length;
+                // Get the request stream.  
+                Stream dataStream = request.GetRequestStream();
+                // Write the data to the request stream.  
+                dataStream.Write(byteArray, 0, byteArray.Length);
+                // Close the Stream object.  
+                dataStream.Close();
+                // Get the response.  
+                WebResponse response = request.GetResponse();
+                // Display the status.  
+                log.Info("Calling Web Response - GetResponse method");
+                Console.WriteLine(((HttpWebResponse)response).StatusDescription);
+                log.Info("Called Web Response - " + ((HttpWebResponse)response).StatusDescription);
+                // Get the stream containing content returned by the server.  
+                dataStream = response.GetResponseStream();
+                // Open the stream using a StreamReader for easy access.  
+                StreamReader reader = new StreamReader(dataStream);
+                // Read the content.  
+                responseFromServer = reader.ReadToEnd();
 
-            // Clean up the streams.  
-            reader.Close();
-            dataStream.Close();
-            response.Close();
-            log.Info("Reader Response : " + responseFromServer);
+                // Clean up the streams.  
+                reader.Close();
+                dataStream.Close();
+                response.Close();
+                log.Info("Reader Response : " + responseFromServer);
+            }
+            catch (Exception ex)
+            {
+                log.Info("Exception for EndPoints : " + endPoint + "-" + ex.Message != null ? ex.Message : "-" + ex.StackTrace != null ? ex.StackTrace : "");
+            }
             return responseFromServer;
         }
 
         private static string requestPut(string token, string endPoint, string postData, TraceWriter log, string contentType = null)
-        {            
-            // Create a request using a URL that can receive a post.   
-            WebRequest request = WebRequest.Create(endPoint);           
-            // Set the Method property of the request to POST.  
-            request.Method = "PUT";
-            // Create POST data and convert it to a byte array.  
-            byte[] byteArray = Encoding.UTF8.GetBytes(postData);
-            request.Headers.Add("Authorization", "Bearer " + token);
-            if (string.IsNullOrEmpty(contentType) == false)
+        {
+            string responseFromServer = string.Empty;
+            try
             {
-                // Set the ContentType property of the WebRequest.  
-                request.ContentType = contentType;
-            }
-            // Set the ContentLength property of the WebRequest.  
-            request.ContentLength = byteArray.Length;
-            // Get the request stream.  
-            Stream dataStream = request.GetRequestStream();
-            // Write the data to the request stream.  
-            dataStream.Write(byteArray, 0, byteArray.Length);
-            // Close the Stream object.  
-            dataStream.Close();
-            // Get the response.             
-            WebResponse response = request.GetResponse();
-            // Display the status.              
-            // Get the stream containing content returned by the server.  
-            dataStream = response.GetResponseStream();
-            // Open the stream using a StreamReader for easy access.  
-            StreamReader reader = new StreamReader(dataStream);
-            // Read the content.  
-            string responseFromServer = reader.ReadToEnd();
+                log.Info("Creating PUT request.");
+                // Create a request using a URL that can receive a post.   
+                WebRequest request = WebRequest.Create(endPoint);
+                // Set the Method property of the request to POST.  
+                request.Method = "PUT";
+                // Create POST data and convert it to a byte array.  
+                byte[] byteArray = Encoding.UTF8.GetBytes(postData);
+                request.Headers.Add("Authorization", "Bearer " + token);
+                if (string.IsNullOrEmpty(contentType) == false)
+                {
+                    // Set the ContentType property of the WebRequest.  
+                    request.ContentType = contentType;
+                }
+                // Set the ContentLength property of the WebRequest.  
+                request.ContentLength = byteArray.Length;
+                // Get the request stream.  
+                Stream dataStream = request.GetRequestStream();
+                // Write the data to the request stream.  
+                dataStream.Write(byteArray, 0, byteArray.Length);
+                // Close the Stream object.  
+                dataStream.Close();
+                // Get the response.             
+                WebResponse response = request.GetResponse();
+                // Display the status.              
+                // Get the stream containing content returned by the server.  
+                dataStream = response.GetResponseStream();
+                // Open the stream using a StreamReader for easy access.  
+                StreamReader reader = new StreamReader(dataStream);
+                // Read the content.  
+                responseFromServer = reader.ReadToEnd();
 
-            // Clean up the streams.  
-            reader.Close();
-            dataStream.Close();
-            response.Close();
+                // Clean up the streams.  
+                reader.Close();
+                dataStream.Close();
+                response.Close();
+            }
+            catch (Exception ex)
+            {
+                log.Info("Exception for EndPoints : " + endPoint + "-" + ex.Message != null ? ex.Message : "-" + ex.StackTrace != null ? ex.StackTrace : "");
+            }
             return responseFromServer;
         }
 

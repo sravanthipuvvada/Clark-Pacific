@@ -239,11 +239,15 @@ namespace AzureFunction.CreateTeamsUsingSiteTemplate
                                         if (!string.IsNullOrWhiteSpace(existingGroupID))
                                         {
                                             createdTeamSiteUrl = "https://graph.microsoft.com/v1.0/groups/" + existingGroupID;
-                                                                                       
-                                            // Add Owner users to newly created group
-                                            var hasOwnersAdded = Graph.addUsersToTeams(token, existingGroupID, ownerUsersEmailStr, log, "owners");
-                                            // Add Member users to newly created group
-                                            var hasMembersAdded = Graph.addUsersToTeams(token, existingGroupID, memberUsersEmailStr, log, "members");
+
+                                            // Add default owner users to newly created teams site
+                                            var hasTeamOwnersAdded = Graph.addDefaultTeamsUserToNewTeams(token, teamTemplateGroupId, existingGroupID, log, "owners");
+                                            // Add default Members users to newly created teams site
+                                            var hasTeamMembersAdded = Graph.addDefaultTeamsUserToNewTeams(token, teamTemplateGroupId, existingGroupID, log, "members");
+                                            // Add Form Owner users to newly created group
+                                            var hasOwnersAdded = Graph.addFormUsersToTeams(token, existingGroupID, ownerUsersEmailStr, log, "owners");
+                                            // Add Form Member users to newly created group
+                                            var hasMembersAdded = Graph.addFormUsersToTeams(token, existingGroupID, memberUsersEmailStr, log, "members");
 
                                             //  Get Source SharePoint Url using existing teams id
                                             string sourceSPUrl = Graph.getSharePointSiteUrlForTeams(token, teamTemplateGroupId, log);
@@ -257,7 +261,7 @@ namespace AzureFunction.CreateTeamsUsingSiteTemplate
                                             {
                                                 // Copy content from source SharePoint site to destination SharePoint site.
                                                 CloneTeamsLibrary ctlib = new CloneTeamsLibrary();
-                                                ctlib.CloneLibraryItems(sourceSPUrl, destinationSPUrl, adminUserEmail, secureString);
+                                                ctlib.CloneLibraryItems(sourceSPUrl, destinationSPUrl, adminUserEmail, secureString, log);
                                             }
                                         }
                                     }
