@@ -1,4 +1,6 @@
 export interface IProjectSiteCreationStates {
+  uniqueValue:boolean;
+  hideDialog: boolean;
   data:string;
   siteTypeErrorMessage:string;
   siteTitleErrorMessage:string;

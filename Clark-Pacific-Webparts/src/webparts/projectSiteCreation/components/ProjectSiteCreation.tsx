@@ -13,6 +13,7 @@ import { default as pnp, ItemAddResult, Web, List, Item } from "sp-pnp-js";
 import { PeoplePicker, PrincipalType } from "@pnp/spfx-controls-react/lib/PeoplePicker";
 import * as jquery from 'jquery';
 import { string, any, array } from 'prop-types';
+import { faResolving } from '@fortawesome/free-brands-svg-icons';
 
 export default class ProjectSiteCreation extends React.Component<IProjectSiteCreationProps, IProjectSiteCreationStates> {
   
@@ -21,7 +22,9 @@ export default class ProjectSiteCreation extends React.Component<IProjectSiteCre
   constructor(props) {
     super(props);
     this.state = {
+      uniqueValue:true,
       data: null,
+      hideDialog: true,
       jurisdictionUserEmail: '',
       spmUserEmail: '',
       pmUserEmail: '',
@@ -75,7 +78,6 @@ export default class ProjectSiteCreation extends React.Component<IProjectSiteCre
     contractValueArray: Array<IDropDown> = new Array<IDropDown>(), 
     projectValueArray: Array<IDropDown> = new Array<IDropDown>(), 
     deliveryModeArray : Array<IDropDown> = new Array<IDropDown>();
-    debugger;
     // Bind Product Type
     this._getListProjectProductTypePnp().then((data: any) => {
       
@@ -152,6 +154,36 @@ export default class ProjectSiteCreation extends React.Component<IProjectSiteCre
     this.BindDropDowns();
   }
 
+  //Get Title column value
+  private _getTitleColumnPnp(controlTxt:string):Promise<ISPListColumn[]>{
+    return pnp.sp.web.lists
+      .getByTitle(`${this.props.listName}`)
+      .items
+      .select("Title")
+      .filter("Title eq '"+ controlTxt.trim() +"'")
+      .get()
+      .then((response: any[]) => {
+         return response;
+    });
+  }
+
+  public _validateUnique(): any {
+   
+    return new Promise((resolve,reject)=>{
+      let txtTitle = document.getElementById('txtSiteTitle')["value"];
+   
+      const titleV : any = pnp.sp.web.lists
+      .getByTitle(`${this.props.listName}`)
+      .items
+      .filter("Title eq '"+ txtTitle.trim() +"'")
+      .get().then(r => {
+      
+        console.log(r);
+        resolve(r);
+      });
+  
+      });
+  }
 
   //Get Product type
   private _getListProjectProductTypePnp(): Promise<ISPListColumn[]> {
@@ -213,12 +245,8 @@ export default class ProjectSiteCreation extends React.Component<IProjectSiteCre
       });
   }
 
-  //this is declared for clearing values from all peoplepickers 
-  public myPicker: PeoplePicker;
-
-  //Add Request / Item to Projects
+//Add Request / Item to Projects
   public AddItem(): any {
-    debugger;
     const web: Web = new Web(this.props.siteUrl);
     let jobId = document.getElementById('txtJobId')["value"];
     let siteTitle = document.getElementById('txtSiteTitle')["value"];
@@ -250,7 +278,8 @@ export default class ProjectSiteCreation extends React.Component<IProjectSiteCre
         results: (this.state.memberUsersIdArray == null) ? [0] : this.state.memberUsersIdArray 
       }
     }).then((iar: ItemAddResult) => {
-      alert('New Project Site creation request has been submitted successfully !!');
+      //alert('New Project Site creation request has been submitted successfully !!');
+      this._showDialog();
       this.ClearControlValue();
     });
 
@@ -266,7 +295,6 @@ export default class ProjectSiteCreation extends React.Component<IProjectSiteCre
 
   //get peoplepicker by userid
   public _getPeoplePickerJurisdictionItems(items: any[]) {
-    debugger;
     console.log('Items:', items);
     if (items.length > 0) {
       var userEmail = items[0].secondaryText;
@@ -391,64 +419,78 @@ export default class ProjectSiteCreation extends React.Component<IProjectSiteCre
     return (controlID != "") ? (controlID != "- Select -") ? (controlID != null)?true:false : false : false;
   }
 
-  private _validateAllFields(): boolean{
+  
+  
+
+  private _validateAllFields(): any{
     let _txtJobId : boolean = this._validateTextField('txtJobId');
     let _ddlSiteType : boolean = this._validateDDField(this.state.selectedSiteType);
     let _txtSiteTitle : boolean = this._validateTextField('txtSiteTitle');
-    let _txtSiteURL : boolean = this._validateTextField('txtSiteURL');
-    let _ddProductType : boolean = this._validateDDField(this.state.selectedProductType);
-    let _ddlBuildingType : boolean = this._validateDDField(this.state.selectedBuildingType);
-    let _ddlContractValue : boolean = this._validateDDField(this.state.selectedContractValue);
-    let _ddlDeliveryMethod : boolean = this._validateDDField(this.state.selectedDeliveryMethodValue);
-    let _txtClient : boolean = this._validateTextField('txtClient');
-
-    if(_txtJobId){      this.setState({ jobIdErrorMessage: "" });    } 
-    else { this.setState({ jobIdErrorMessage: "You can't leave this blank" }); }
-
-    if(_ddlSiteType){      this.setState({ siteTypeErrorMessage: "" });    } 
-    else { this.setState({ siteTypeErrorMessage: "You can't leave this blank or fill with 'Select'" }); }
-
-    if(_txtSiteTitle){      this.setState({ siteTitleErrorMessage: "" });    } 
-    else { this.setState({ siteTitleErrorMessage: "You can't leave this blank" }); }
-
-    if(_txtSiteURL){      
-        let url = document.getElementById('txtSiteURL')["value"];
-        if (this._validateUrl(url)) {  this.setState({ sitURLErrorMessage: "" });    } 
-        else{ this.setState({ sitURLErrorMessage: "Invalid Url : " + url }); } }
-    else {this.setState({ sitURLErrorMessage: "You can't leave this blank" }); }
-
-    if(_ddProductType){      this.setState({ productTypeErrorMessage: "" });    } 
-    else { this.setState({ productTypeErrorMessage: "You can't leave this blank or fill with 'Select'" }); }
-
-    if(_ddlBuildingType){      this.setState({ buildingTypesErrorMessage: "" });    } 
-    else { this.setState({ buildingTypesErrorMessage: "You can't leave this blank or fill with 'Select'" }); }
-
-    if(_ddlContractValue){      this.setState({ contractValueErrorMessage: "" });    } 
-    else { this.setState({ contractValueErrorMessage: "You can't leave this blank or fill with 'Select'" }); }
-
-    if(_ddlDeliveryMethod){      this.setState({ deliveryModeErrorMessage: "" });    } 
-    else { this.setState({ deliveryModeErrorMessage: "You can't leave this blank or fill with 'Select'" }); }
-
-    if(_txtClient){      this.setState({ clientErrorMessage: "" });    } 
-    else { this.setState({ clientErrorMessage: "You can't leave this blank" }); }
-
-
-    return (_txtJobId && _txtSiteTitle && _txtSiteURL &&
-            _ddlSiteType && _ddProductType && _ddlBuildingType &&
-            _ddlContractValue && _ddlDeliveryMethod && _txtClient) ? true : false;
+    return new Promise((resolve,reject)=>{
+      this._validateUnique().then((response)=>{
+        
+      let _txtSiteURL : boolean = this._validateTextField('txtSiteURL');
+      let _ddProductType : boolean = this._validateDDField(this.state.selectedProductType);
+      let _ddlBuildingType : boolean = this._validateDDField(this.state.selectedBuildingType);
+      let _ddlContractValue : boolean = this._validateDDField(this.state.selectedContractValue);
+      let _ddlDeliveryMethod : boolean = this._validateDDField(this.state.selectedDeliveryMethodValue);
+      let _txtClient : boolean = this._validateTextField('txtClient');
+      let _TitleUniquResponse : boolean = (response.length > 0) ? false : true;
+      if(_txtJobId){      this.setState({ jobIdErrorMessage: "" });    } 
+      else { this.setState({ jobIdErrorMessage: "You can't leave this blank" }); }
+  
+      if(_ddlSiteType){      this.setState({ siteTypeErrorMessage: "" });    } 
+      else { this.setState({ siteTypeErrorMessage: "You can't leave this blank or fill with 'Select'" }); }
+      
+      if(_txtSiteTitle){ 
+        if(_TitleUniquResponse == false)
+          this.setState({ siteTitleErrorMessage: "Site Title is already in use, check another title."});
+        else
+          this.setState({ siteTitleErrorMessage: "" });   
+      } 
+      else { this.setState({ siteTitleErrorMessage: "You can't leave this blank" }); }
+  
+      if(_txtSiteURL){      
+          let url = document.getElementById('txtSiteURL')["value"];
+          if (this._validateUrl(url)) {  this.setState({ sitURLErrorMessage: "" });    } 
+          else{ this.setState({ sitURLErrorMessage: "Invalid Url : " + url }); } }
+      else {this.setState({ sitURLErrorMessage: "You can't leave this blank" }); }
+  
+      if(_ddProductType){      this.setState({ productTypeErrorMessage: "" });    } 
+      else { this.setState({ productTypeErrorMessage: "You can't leave this blank or fill with 'Select'" }); }
+  
+      if(_ddlBuildingType){      this.setState({ buildingTypesErrorMessage: "" });    } 
+      else { this.setState({ buildingTypesErrorMessage: "You can't leave this blank or fill with 'Select'" }); }
+  
+      if(_ddlContractValue){      this.setState({ contractValueErrorMessage: "" });    } 
+      else { this.setState({ contractValueErrorMessage: "You can't leave this blank or fill with 'Select'" }); }
+  
+      if(_ddlDeliveryMethod){      this.setState({ deliveryModeErrorMessage: "" });    } 
+      else { this.setState({ deliveryModeErrorMessage: "You can't leave this blank or fill with 'Select'" }); }
+  
+      if(_txtClient){      this.setState({ clientErrorMessage: "" });    } 
+      else { this.setState({ clientErrorMessage: "You can't leave this blank" }); }
+  
+      
+      resolve ((_txtJobId && _txtSiteTitle && _txtSiteURL &&
+        _ddlSiteType && _ddProductType && _ddlBuildingType &&
+        _ddlContractValue && _ddlDeliveryMethod && _txtClient &&
+        _TitleUniquResponse) ? true : false);
+      });
+    });
 
   }
 
   private _submitRequest = (): void => {
-    debugger;
-    if(this._validateAllFields()){
-      // Add Project Request
-      this.AddItem();
-    }
+    this._validateAllFields().then((response)=>{
+      if(response!==undefined && response!==null && response){
+         this.AddItem();
+      }
+    });
+
   }
 
   private _cancelRequest = () => {
-    debugger;
     this.ClearControlValue();
   }
   
@@ -467,8 +509,11 @@ export default class ProjectSiteCreation extends React.Component<IProjectSiteCre
 
     this.setState({
       jobId:'',
+      jobIdErrorMessage:'',
       siteTitle:'',
+      siteTitleErrorMessage:'',
       siteURL:'',
+      sitURLErrorMessage:'',
       client:'',
       selectedSiteType: null,
       selectedBuildingType:null,
@@ -495,12 +540,12 @@ export default class ProjectSiteCreation extends React.Component<IProjectSiteCre
     });
 
     this.BindDropDowns();
+
   }
 
   // This method is used as property method for office-ui-fabric component TextField
   // It takes input string as parameter and returns error string depending upon validation
   private _getErrorMessage(value: string): string {
-    debugger;
     if (value.length <= 0)
       return "You can't leave this blank";
     else {
@@ -518,6 +563,16 @@ export default class ProjectSiteCreation extends React.Component<IProjectSiteCre
         this.setState({ sitURLErrorMessage: "" });
       }
     }
+  }
+
+  //Add Link Popup Events
+  private _showDialog = (): void => {
+    this.setState({ hideDialog: false });
+  }
+
+  //Close dialog
+  private _closeDialog = (): void => {
+    this.setState({ hideDialog: true });
   }
 
  
@@ -550,7 +605,6 @@ export default class ProjectSiteCreation extends React.Component<IProjectSiteCre
   }
 
   public render(): React.ReactElement<IProjectSiteCreationProps> {
-    debugger;
     return (
       <div className="projectSiteRequestSection">
         <div className="ms-sm12 ms-md12 ms-lg12 siteTypeSection">
@@ -558,7 +612,8 @@ export default class ProjectSiteCreation extends React.Component<IProjectSiteCre
         </div>
         <div className="ms-sm12 ms-md12 ms-lg12 siteURLSection">
           <TextField label="Job ID" id="txtJobId" 
-              required={true} onGetErrorMessage={this._getErrorMessage} 
+              required={true} 
+              //onGetErrorMessage={this._getErrorMessage} 
               //onKeyUp={this.changeValue}
               errorMessage={this.state.jobIdErrorMessage} 
               validateOnLoad={false}
@@ -585,7 +640,8 @@ export default class ProjectSiteCreation extends React.Component<IProjectSiteCre
 
         <div className="ms-sm12 ms-md12 ms-lg12 siteTitleSection">
           <TextField label="Site Title" id="txtSiteTitle" 
-              required={true} onGetErrorMessage={this._getErrorMessage} 
+              required={true} 
+              //onGetErrorMessage={this._getErrorMessage} 
               errorMessage={this.state.siteTitleErrorMessage} 
               validateOnLoad={false} 
               name="txtSiteTitle"
@@ -597,7 +653,9 @@ export default class ProjectSiteCreation extends React.Component<IProjectSiteCre
 
         <div className="ms-sm12 ms-md12 ms-lg12 siteURLSection">
           <TextField type="url" label="Site URL" id="txtSiteURL" 
-              required={true} onGetErrorMessage={this._getErrorMessage}  onKeyUp={this.changeValue}
+              required={true}
+              //onGetErrorMessage={this._getErrorMessage}  
+              onKeyUp={this.changeValue}
               errorMessage={this.state.sitURLErrorMessage} 
               validateOnLoad={false} 
               onChange={this._assignDefaultValue}
@@ -643,7 +701,6 @@ export default class ProjectSiteCreation extends React.Component<IProjectSiteCre
 
         <div className="ms-sm12 ms-md12 ms-lg12 jurisdictionSection">
           <PeoplePicker
-            
             context={this.props.context}
             titleText="Jurisdiction"
             personSelectionLimit={1}
@@ -654,6 +711,7 @@ export default class ProjectSiteCreation extends React.Component<IProjectSiteCre
             showHiddenInUI={false}
             principalTypes={[PrincipalType.User]}
             resolveDelay={1000} 
+            //errorMessage={this.state.pplErrorMsg}
             
             />
         </div>
@@ -673,7 +731,8 @@ export default class ProjectSiteCreation extends React.Component<IProjectSiteCre
 
         <div className="ms-sm12 ms-md12 ms-lg12 clientSection">
           <TextField label="Client" id="txtClient"  
-            required={true} onGetErrorMessage={this._getErrorMessage} 
+            required={true} 
+            //onGetErrorMessage={this._getErrorMessage} 
             errorMessage={this.state.clientErrorMessage} 
             validateOnLoad={false} 
             onChange={this._assignDefaultValue}
@@ -765,6 +824,28 @@ export default class ProjectSiteCreation extends React.Component<IProjectSiteCre
           <DefaultButton onClick={this._cancelRequest} text="Cancel Request" iconProps={{ iconName: 'Clear' }} />
         </DialogFooter>
         </div>
+
+
+
+        <Dialog
+          hidden={this.state.hideDialog}
+          onDismiss={this._closeDialog}
+          dialogContentProps={{
+            type: DialogType.largeHeader,
+            title: 'Project Site Request',
+            subText: 'Request has been submitted successfully...'
+          
+          }}
+          modalProps={{
+            isBlocking: true,
+            styles: { main: { maxWidth: 550 } }
+          }}
+        >
+          
+          <DialogFooter>
+            <PrimaryButton onClick={this._closeDialog} text=" OK " />
+          </DialogFooter>
+        </Dialog>
 
       </div>
     );
