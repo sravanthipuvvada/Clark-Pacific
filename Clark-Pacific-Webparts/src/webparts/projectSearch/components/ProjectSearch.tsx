@@ -11,6 +11,7 @@ import { Panel, PanelType } from 'office-ui-fabric-react/lib/Panel';
 import { DefaultButton } from 'office-ui-fabric-react/lib/Button';
 import { Dropdown, DropdownMenuItemType, IDropdownOption } from 'office-ui-fabric-react/lib/Dropdown';
 import { ChoiceGroup, IChoiceGroupOption } from 'office-ui-fabric-react/lib/ChoiceGroup';
+import { default as pnp, ItemAddResult, Web, List, Item } from "sp-pnp-js";
 
 export default class ProjectSearch extends React.Component<IProjectSearchProps, IProjectSearchStates> {
   constructor(props) {
@@ -212,7 +213,7 @@ export default class ProjectSearch extends React.Component<IProjectSearchProps, 
             });
             this.setState({
               allProjects
-            }, () => { this.createFilters(); });
+            });
 
           }
         })
@@ -223,139 +224,77 @@ export default class ProjectSearch extends React.Component<IProjectSearchProps, 
     });
   }
 
-  public createFilters = () => {
-    //Get distinct project types
-    let listProject = [];
-    this.state.allProjects.map((element, i) => {
-      if (element.ProjectType) {
-        if (listProject.indexOf(element.ProjectType.trim()) === -1) {
-          listProject.push(element.ProjectType.trim());
-        }
-      }
-    });
 
-    //Store the productType list in states for dropdown control creation
-    let projectTypeArray: Array<IDropDown> = new Array<IDropDown>();
-    if (this.state.projectType.length > 0) {
-      projectTypeArray = this.state.projectType;
-    }
-    else {     
-      listProject.map((element) => {
-        if (element) {
-          projectTypeArray.push({
-            key: element,
-            text: element
-          });
-        }
-      });
-      this.setState({
-        projectType: projectTypeArray
+//Get Control Values
+private _getControlValuesPnp(columnName): Promise<IProject[]> {
+  return pnp.sp.web.lists
+    .getByTitle(`${this.props.listName}`)
+    .fields
+    .getByInternalNameOrTitle(columnName)
+    .get()
+    .then((response: any[]) => {
+      return response;
+    });
+} 
+
+public createFilters = () => {
+  let projectTypeArray: Array<IDropDown> = new Array<IDropDown>();
+  let productTypeArray: Array<IDropDown> = new Array<IDropDown>();
+  let buildingTypeArray: Array<IDropDown> = new Array<IDropDown>();
+  let contractValueArray: Array<IDropDown> = new Array<IDropDown>();
+  
+  this._getControlValuesPnp('ProjectType').then((data: any) => {
+    data.Choices.map(element => {
+    if (element) {
+      projectTypeArray.push({
+      key: element,
+      text: element
       });
     }
-
-    //Get distinct product types
-    let listProduct = [];
-    this.state.allProjects.map((element, i) => {
-      if (element.ProductType) {
-        if (listProduct.indexOf(element.ProductType.trim()) === -1) {
-          listProduct.push(element.ProductType.trim());
-        }
-      }
     });
+  });
 
-    //Store the productType list in states for dropdown control creation
-    let productTypeArray: Array<IDropDown> = new Array<IDropDown>();
-    if (this.state.productType.length > 0) {
-      productTypeArray = this.state.productType;
-    }
-    else {
-      //Add blank value
+  this._getControlValuesPnp('ProductType').then((data: any) => {
+    data.Choices.map(element => {
+    if (element) {
       productTypeArray.push({
-        key: '',
-        text: '',
-      });
-      listProduct.map((element) => {
-        if (element) {
-          productTypeArray.push({
-            key: element,
-            text: element
-          });
-        }
-      });
-      this.setState({
-        productType: productTypeArray
+      key: element,
+      text: element
       });
     }
-
-    //Get distinct Building types
-    let listBuilding = [];
-    this.state.allProjects.map((element, i) => {
-      if (element.BuildingType) {
-        if (listBuilding.indexOf(element.BuildingType.trim()) === -1) {
-          listBuilding.push(element.BuildingType.trim());
-        }
-      }
     });
+  });
 
-    //Store the building type list in states for dropdown control creation
-    let buildingTypeArray: Array<IDropDown> = new Array<IDropDown>();
-    if (this.state.buildingType.length > 0) {
-      buildingTypeArray = this.state.buildingType;
-    }
-    else {
-      //Add blank value
+  this._getControlValuesPnp('BuildingType').then((data: any) => {
+    data.Choices.map(element => {
+    if (element) {
       buildingTypeArray.push({
-        key: '',
-        text: '',
-      });
-      listBuilding.map((element) => {
-        if (element) {
-          buildingTypeArray.push({
-            key: element,
-            text: element
-          });
-        }
-      });
-      this.setState({
-        buildingType: buildingTypeArray
+      key: element,
+      text: element
       });
     }
-
-    //Get distinct contract values 
-    let lisContractValue = [];
-    this.state.allProjects.map((element, i) => {
-      if (element.ContractValue) {
-        if (lisContractValue.indexOf(element.ContractValue) === -1) {
-          lisContractValue.push(element.ContractValue);
-        }
-      }
     });
+  });
 
-    //Store the contract value list in states for dropdown control creation
-    let contractValueArray: Array<IDropDown> = new Array<IDropDown>();
-    if (this.state.contractValue.length > 0) {
-      contractValueArray = this.state.contractValue;
-    }
-    else {
-      //Add blank value
+  this._getControlValuesPnp('ContractValue').then((data: any) => {
+    data.Choices.map(element => {
+    if (element) {
       contractValueArray.push({
-        key: '',
-        text: '',
-      });
-      lisContractValue.map((element) => {
-        if (element) {
-          contractValueArray.push({
-            key: element,
-            text: element
-          });
-        }
-      });
-      this.setState({
-        contractValue: contractValueArray
+      key: element,
+      text: element
       });
     }
-  }
+    });
+  });
 
+  this.setState({
+    projectType: projectTypeArray,
+    productType: productTypeArray,
+    buildingType: buildingTypeArray,
+    contractValue: contractValueArray
+  });
+
+}
   //Create Filter parameters
   public getFilterParam(filteredProjectType,filteredProductType, filteredBuildingType, filteredContractValue): any {
     let refinerParam = ' ';
@@ -481,7 +420,7 @@ export default class ProjectSearch extends React.Component<IProjectSearchProps, 
     if (this.props.listName !== undefined && this.props.listName !== null && this.props.listName !== "") {
       //Get all project details and create filter based on the result
       this._getAllProjectsData();
-
+      this.createFilters();
       //Get specific count of project as per configuration for initial load
       this._getProjectsData();
     }

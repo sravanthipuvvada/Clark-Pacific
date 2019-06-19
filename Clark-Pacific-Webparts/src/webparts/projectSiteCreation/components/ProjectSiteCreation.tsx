@@ -175,7 +175,7 @@ export default class ProjectSiteCreation extends React.Component<IProjectSiteCre
       const titleV : any = pnp.sp.web.lists
       .getByTitle(`${this.props.listName}`)
       .items
-      .filter("Title eq '"+ txtTitle.trim() +"'")
+      .filter("Title eq '"+ txtTitle.trim() +"' or Title eq '"+ txtTitle.replace(/\s/g, "") +"'")
       .get().then(r => {
       
         console.log(r);

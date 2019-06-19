@@ -72,8 +72,10 @@ export default class MyFavorites extends React.Component<IMyFavoritesProps, IMyF
     if (this.props.listName) {
       let apiUrl;
       if (this.props.linksType == "Personal") {
-        //build api based on the created by himself
-        apiUrl = "/_api/web/lists/getbytitle('" + this.props.listName + "')/items?&$Filter=Author/EMail eq '" + this.props.userEmail + "' or Default eq '1'&$orderby=ID asc" + `&$top=${this.props.numerOfLinks == 0 || this.props.numerOfLinks === undefined || this.props.numerOfLinks === null ? 5 : this.props.numerOfLinks}`;
+        //build api based on the created by himself 
+        //apiUrl = "/_api/web/lists/getbytitle('" + this.props.listName + "')/items?&$Filter=Author/EMail eq '" + this.props.userEmail + "' or Default eq '1'&$orderby=ID asc" + `&$top=${this.props.numerOfLinks == 0 || this.props.numerOfLinks === undefined || this.props.numerOfLinks === null ? 5 : this.props.numerOfLinks}`;
+        apiUrl = "/_api/web/lists/getbytitle('" + this.props.listName + "')/items?&$Filter=Author/EMail eq '" + this.props.userEmail + "' &$orderby=ID asc" + `&$top=${this.props.numerOfLinks == 0 || this.props.numerOfLinks === undefined || this.props.numerOfLinks === null ? 5 : this.props.numerOfLinks}`;
+
         if (apiUrl) {
           LinkItems = this.getDataAjaxRequest(apiUrl);
         }
